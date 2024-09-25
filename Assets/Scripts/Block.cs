@@ -22,28 +22,58 @@ public class Block : MonoBehaviour
     private Coroutine holdCoroutine;
     public bool isDown = false;
     public bool finished = false;
+    [SerializeField] private BlockState blockState;
+
+    public BlockState BlockState
+    {
+        set
+        {
+            blockState = value;
+            if (blockState == BlockState.Ready)
+            {
+                GetComponent<Rigidbody2D>().gravityScale = 1;
+            }
+            else if (blockState == BlockState.Moving)
+            {
+                GetComponent<Rigidbody2D>().gravityScale = 0;
+            }
+
+        }
+        get
+        {
+            return blockState;
+        }
+    }
+
+
     private void Start()
     {
+        BlockState = BlockState.Moving;
+        StartCoroutine(MoveBlock());
         spriteRenderer = transform.GetChild(0).GetComponent<SpriteRenderer>();
         pBtext = progressBar.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
-        ProgressBar(0f,false);
+        ProgressBar(0f, false);
         SetColor(normalColor, 1f);
     }
 
-/// <summary>
-/// Called when the player taps the screen. This will set the Block to ready.
-/// </summary>
-/// <param name="context"></param>
+    /// <summary>
+    /// Called when the player taps the screen. This will set the Block to ready.
+    /// </summary>
+    /// <param name="context"></param>
     public void Tap(InputAction.CallbackContext context)
     {
-        if (context.performed)
+        if (BlockState == BlockState.Moving)
         {
-            SetColor(readyColor, 0f);
-            isDown = true;
-            Debug.Log("Tapped");
-            ready = true;
+            if (context.performed)
+            {
+                SetColor(readyColor, 0f);
+                isDown = true;
+                Debug.Log("Tapped");
+                ready = true;
+                BlockState = BlockState.Ready;
+            }
         }
-  
+
     }
 
     /// <summary>
@@ -51,7 +81,7 @@ public class Block : MonoBehaviour
     /// </summary>
     public void Hold(InputAction.CallbackContext context)
     {
-        if (!ready)
+        if (!ready || BlockState != BlockState.Ready)
             return;
         if (context.started)
         {
@@ -65,10 +95,10 @@ public class Block : MonoBehaviour
             {
                 StopCoroutine(holdCoroutine);
                 holdCoroutine = null;
-                ProgressBar(0f, false);
+                ProgressBar(0f, true);
             }
-   
-                isDown = false;
+
+            isDown = false;
         }
 
     }
@@ -79,7 +109,7 @@ public class Block : MonoBehaviour
 
     private IEnumerator HoldForSeconds()
     {
-        for(float time = 0f; time < holdTime + breakThreshold; time += Time.deltaTime)
+        for (float time = 0f; time < holdTime + breakThreshold; time += Time.deltaTime)
         {
             ProgressBar(time / holdTime);
             if (time >= holdTime && time < holdTime + breakThreshold)
@@ -89,18 +119,18 @@ public class Block : MonoBehaviour
                 holdCoroutine = null;
             }
             yield return null;
- 
+
         }
-        if(isDown)
+        if (isDown)
             BreakBlock();
- 
+
 
         holdCoroutine = null;
     }
 
-/// <summary>
-/// Activates the Block when the player holds it for the required time.
-/// </summary>
+    /// <summary>
+    /// Activates the Block when the player holds it for the required time.
+    /// </summary>
     private void ActivateBlock()
     {
         SetColor(activeColor, 1f);
@@ -108,22 +138,22 @@ public class Block : MonoBehaviour
 
 
 
-/// <summary>
-/// Breaks the Block when the player holds it for too long.
-/// </summary>
+    /// <summary>
+    /// Breaks the Block when the player holds it for too long.
+    /// </summary>
     public void BreakBlock()
     {
         SetColor(brokenColor, 1f);
     }
 
-/// <summary>
-/// Changes the color and the progressbar based on how long the player has been holding the Block. will be changed to a better indicator in the future.
-/// </summary>
-/// <param name="value">The value</param>
-/// <param name="affectSprite">Whether to change the sprite color or just the progress bar</param>
-    private void ProgressBar(float value,bool affectSprite = true)
+    /// <summary>
+    /// Changes the color and the progressbar based on how long the player has been holding the Block. will be changed to a better indicator in the future.
+    /// </summary>
+    /// <param name="value">The value</param>
+    /// <param name="affectSprite">Whether to change the sprite color or just the progress bar</param>
+    private void ProgressBar(float value, bool affectSprite = true)
     {
-        if(progressBar.gameObject.activeSelf)
+        if (progressBar.gameObject.activeSelf)
         {
             progressBar.fillAmount = value;
             pBtext.text = value.ToString("P0");
@@ -144,23 +174,43 @@ public class Block : MonoBehaviour
             }
 
         }
-        
-        if (affectSprite){
-            SetColor(spriteRenderer.color, value);
-        }   
 
+        if (affectSprite)
+        {
+            SetColor(spriteRenderer.color, value);
+        }
+
+    }
+    private IEnumerator MoveBlock()
+    {
+        Vector2 target = new Vector2(1.75f, transform.position.y);
+        BlockState = BlockState.Moving;
+        while (BlockState == BlockState.Moving)
+        {
+            transform.position = Vector2.MoveTowards(transform.position, target, 2f * Time.deltaTime);
+            if (transform.position.x >= 1.75)
+            {
+                target = new Vector2(-1.75f, transform.position.y);
+            }
+            else if (transform.position.x <= -1.75)
+            {
+                target = new Vector2(1.75f, transform.position.y);
+
+            }
+            yield return null;
+        }
     }
 
 
-/// <summary>
-/// Changes the color of the Block.
-/// </summary>
-/// <param name="color">The RGB Color</param>
-/// <param name="alpha">The new transparency</param>
+    /// <summary>
+    /// Changes the color of the Block.
+    /// </summary>
+    /// <param name="color">The RGB Color</param>
+    /// <param name="alpha">The new transparency</param>
     private void SetColor(Color color, float alpha)
     {
         color.a = alpha;
         spriteRenderer.color = color;
     }
-    
+
 }
