@@ -10,10 +10,13 @@ public class Block : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     public Image progressBar;
     private TextMeshProUGUI pBtext;
-    public Color color1;
-    public Color color2;
+    public Color normalColor;
+    bool ready = false;
+    public Color readyColor;
+    public Color activeColor;
+    public Color brokenColor;
     public float holdTime = 3f;
-    private float breakTime = 0.5f;
+    private float breakThreshold = 0.25f;
     private Coroutine holdCoroutine;
     public bool isDown = false;
     public bool finished = false;
@@ -21,29 +24,31 @@ public class Block : MonoBehaviour
     {
         spriteRenderer = transform.GetChild(0).GetComponent<SpriteRenderer>();
         pBtext = progressBar.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
-        ProgressBar(0f);
+        ProgressBar(0f,false);
+        SetColor(normalColor, 1f);
     }
 
     public void Tap(InputAction.CallbackContext context)
     {
         if (context.performed)
         {
-            spriteRenderer.color = color2;
-            Debug.Log("Tap");
+            SetColor(readyColor, 0f);
             isDown = true;
+            Debug.Log("Tapped");
+            ready = true;
         }
   
     }
 
     public void Hold(InputAction.CallbackContext context)
     {
-        
+        if (!ready)
+            return;
         if (context.started)
         {
             holdCoroutine = StartCoroutine(HoldForSeconds());
-            Debug.Log("Hold Started");
-            spriteRenderer.color = color2;
             isDown = true;
+            SetColor(readyColor, 0f);
         }
         else if (context.canceled)
         {
@@ -51,8 +56,7 @@ public class Block : MonoBehaviour
             {
                 StopCoroutine(holdCoroutine);
                 holdCoroutine = null;
-                Debug.Log("Hold Canceled");
-                ProgressBar(0f);
+                ProgressBar(0f, false);
             }
    
                 isDown = false;
@@ -62,22 +66,20 @@ public class Block : MonoBehaviour
 
     private IEnumerator HoldForSeconds()
     {
-        for(float time = 0f; time < holdTime + breakTime; time += Time.deltaTime)
+        for(float time = 0f; time < holdTime + breakThreshold; time += Time.deltaTime)
         {
             ProgressBar(time / holdTime);
-            if (time >= holdTime && time < holdTime + breakTime)
+            if (time >= holdTime && time < holdTime + breakThreshold)
             {
                 ActivateBlock();
                 ProgressBar(1f);
-                yield return new WaitForSeconds(breakTime);
-                ProgressBar(0f);
-                break;
+                holdCoroutine = null;
             }
- 
             yield return null;
+ 
         }
-        Debug.LogWarning("HoldForSeconds Coroutine Finished block is broken");
-
+        if(isDown)
+            BreakBlock();
  
 
         holdCoroutine = null;
@@ -85,11 +87,16 @@ public class Block : MonoBehaviour
 
     private void ActivateBlock()
     {
-        Debug.Log("Block Activated");
-        spriteRenderer.color = color1;
+        SetColor(activeColor, 1f);
     }
 
-    private void ProgressBar(float value)
+
+
+    public void BreakBlock()
+    {
+        SetColor(brokenColor, 1f);
+    }
+    private void ProgressBar(float value,bool affectSprite = true)
     {
         if(progressBar.gameObject.activeSelf)
         {
@@ -112,11 +119,17 @@ public class Block : MonoBehaviour
             }
 
         }
-        else
-        {
-            return;
+        
+        if (affectSprite){
+            SetColor(spriteRenderer.color, value);
         }   
 
+    }
+
+    private void SetColor(Color color, float alpha)
+    {
+        color.a = alpha;
+        spriteRenderer.color = color;
     }
     
 }
