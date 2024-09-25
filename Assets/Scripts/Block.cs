@@ -3,7 +3,9 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using TMPro;
-
+/// <summary>
+/// Manages the behavior of a Block. 
+/// </summary>
 public class Block : MonoBehaviour
 {
     // Start is called before the first frame update
@@ -28,6 +30,10 @@ public class Block : MonoBehaviour
         SetColor(normalColor, 1f);
     }
 
+/// <summary>
+/// Called when the player taps the screen. This will set the Block to ready.
+/// </summary>
+/// <param name="context"></param>
     public void Tap(InputAction.CallbackContext context)
     {
         if (context.performed)
@@ -40,6 +46,9 @@ public class Block : MonoBehaviour
   
     }
 
+    /// <summary>
+    /// Called when the player holds the screen. This will start the coroutine to manage the time to hold the Block.
+    /// </summary>
     public void Hold(InputAction.CallbackContext context)
     {
         if (!ready)
@@ -64,6 +73,10 @@ public class Block : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// Coroutine to manage the time to hold the Block. It will activate the Block if the player holds it for the required time. and break it if the player holds it for too long.
+    /// </summary>
+
     private IEnumerator HoldForSeconds()
     {
         for(float time = 0f; time < holdTime + breakThreshold; time += Time.deltaTime)
@@ -85,6 +98,9 @@ public class Block : MonoBehaviour
         holdCoroutine = null;
     }
 
+/// <summary>
+/// Activates the Block when the player holds it for the required time.
+/// </summary>
     private void ActivateBlock()
     {
         SetColor(activeColor, 1f);
@@ -92,10 +108,19 @@ public class Block : MonoBehaviour
 
 
 
+/// <summary>
+/// Breaks the Block when the player holds it for too long.
+/// </summary>
     public void BreakBlock()
     {
         SetColor(brokenColor, 1f);
     }
+
+/// <summary>
+/// Changes the color and the progressbar based on how long the player has been holding the Block. will be changed to a better indicator in the future.
+/// </summary>
+/// <param name="value">The value</param>
+/// <param name="affectSprite">Whether to change the sprite color or just the progress bar</param>
     private void ProgressBar(float value,bool affectSprite = true)
     {
         if(progressBar.gameObject.activeSelf)
@@ -126,6 +151,12 @@ public class Block : MonoBehaviour
 
     }
 
+
+/// <summary>
+/// Changes the color of the Block.
+/// </summary>
+/// <param name="color">The RGB Color</param>
+/// <param name="alpha">The new transparency</param>
     private void SetColor(Color color, float alpha)
     {
         color.a = alpha;
