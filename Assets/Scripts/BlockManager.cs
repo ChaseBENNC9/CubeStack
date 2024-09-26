@@ -6,10 +6,10 @@ public class BlockManager : MonoBehaviour
 {
     [SerializeField] private GameObject blockPrefab;
     [SerializeField] private Transform blockSpawnPoint; 
-    private const float SPAWN_OFFSET = 1.5f;
+    private const float SPAWN_OFFSET = 2f;
     public static BlockManager instance;
     private int stackSize = 0;
-    [SerializeField] private Stack<Block> blockStack;
+    [SerializeField] private List<Block> blockStack;
 
     public bool canCreate = true;
     private void Awake()
@@ -19,7 +19,7 @@ public class BlockManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        blockStack = new Stack<Block>();
+        blockStack = new List<Block>();
         CreateBlock();
     }
 
@@ -37,27 +37,27 @@ public class BlockManager : MonoBehaviour
     }
     public void SetSpawnLevel()
     {
-        if (blockStack.IsEmpty())
+        if (blockStack.Count == 0)
         {
             return;
         }
-        blockSpawnPoint.position = new Vector3(transform.position.x,blockStack.Peek().BlockHeight() + SPAWN_OFFSET,transform.position.z);
+        blockSpawnPoint.position = new Vector3(transform.position.x,blockStack[blockStack.Count - 1].BlockHeight() + SPAWN_OFFSET,transform.position.z);
     }
 
     public void AddToStack(Block block)
     {
         stackSize++;
-        blockStack.Push(block);
+        blockStack.Add(block);
+
     }
     public void RemoveFromStack(Block block)
     {
-        if (!blockStack.IsEmpty() && blockStack.Peek() == block)
+        if (blockStack.Count != 0 && blockStack.Contains(block))
         {
-            blockStack.Pop();
+            blockStack.Remove(block);
             stackSize--;
-            
         }
-        Destroy(block.gameObject, 0.1f);        
+
     }
 
     public int GetStackSize()

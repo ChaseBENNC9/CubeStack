@@ -153,8 +153,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   blockPrefab: {fileID: 2170000349665347256, guid: 587ffe55e73e86741ba649b2fdb417c8, type: 3}
   blockSpawnPoint: {fileID: 1212990459}
-  blockStack:
-    _elements: []
+  blockStack: []
   canCreate: 1
 --- !u!4 &55278783
 Transform:
@@ -497,7 +496,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -4.5, z: 0}
-  m_LocalScale: {x: 5, y: 1, z: 1}
+  m_LocalScale: {x: 50, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}

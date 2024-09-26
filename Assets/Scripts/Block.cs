@@ -22,7 +22,9 @@ public class Block : MonoBehaviour
     private Coroutine holdCoroutine;
     public bool isDown = false;
     public bool finished = false;
+    private int blockStrength = 100;
     [SerializeField] private BlockState blockState;
+    [SerializeField] private TextMeshProUGUI strengthtext;
 
     public BlockState BlockState
     {
@@ -38,6 +40,7 @@ public class Block : MonoBehaviour
             {
                 GetComponent<Rigidbody2D>().gravityScale = 0;
             }
+
 
         }
         get
@@ -107,7 +110,9 @@ public class Block : MonoBehaviour
             {
                 StopCoroutine(holdCoroutine);
                 holdCoroutine = null;
-                ProgressBar(0f, true);
+                ProgressBar(blockStrength / 100f);
+                PlaceWeakenedBlock();
+
             }
 
             isDown = false;
@@ -134,7 +139,7 @@ public class Block : MonoBehaviour
 
         }
         if (isDown)
-            BreakBlock(false);
+            BreakBlock();
         else
             ConfirmPlacement();
 
@@ -143,6 +148,18 @@ public class Block : MonoBehaviour
         holdCoroutine = null;
     }
 
+
+    private void PlaceWeakenedBlock()
+    {
+        ready = false;
+        BlockState = BlockState.Weakened;
+        BlockManager.instance.AddToStack(this);
+        BlockManager.instance.SetSpawnLevel();
+        BlockManager.instance.CreateBlock();
+        SetColor(placedColor, blockStrength / 100f);
+        BlockManager.instance.CreateBlock();
+        progressBar.gameObject.SetActive(false);
+    }
     private void ConfirmPlacement()
     {
         ready = false;
@@ -170,13 +187,17 @@ public class Block : MonoBehaviour
     /// <summary>
     /// Breaks the Block when the player holds it for too long.
     /// </summary>
-    public void BreakBlock(bool floor)
+    public void BreakBlock(bool fromWeakened = false)
     {
         SetColor(brokenColor, 1f);
         BlockState = BlockState.Broken;
         BlockManager.instance.RemoveFromStack(this);
-        BlockManager.instance.SetSpawnLevel();
-        BlockManager.instance.CreateBlock();
+        if (!fromWeakened)
+        {
+            BlockManager.instance.SetSpawnLevel();
+            BlockManager.instance.CreateBlock();
+        }
+        Destroy(gameObject,0.25f);
     }
 
     /// <summary>
@@ -189,6 +210,8 @@ public class Block : MonoBehaviour
         if (progressBar.gameObject.activeSelf)
         {
             progressBar.fillAmount = value;
+            blockStrength = (int)(value * 100);
+            strengthtext.text = value.ToString("P0");
             if (value == 0f)
             {
                 progressBar.color = Color.white;
@@ -255,8 +278,23 @@ public class Block : MonoBehaviour
         if (collision.gameObject.CompareTag("Floor") && BlockManager.instance.GetStackSize() > 0)
         {
 
-            BreakBlock(true);
+            BreakBlock();
+        }
+        if (collision.gameObject.CompareTag("Block") && BlockState == BlockState.Weakened)
+        {
+          HandleRandomBreak();
         }
 
+    }
+
+    private void HandleRandomBreak()
+    {
+        int random = Random.Range(0, 100);
+        if (random >= blockStrength)
+        {
+            BreakBlock(true);
+        }
+        Debug.Log(random +  " " + blockStrength);
+        
     }
 }
