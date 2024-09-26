@@ -9,13 +9,13 @@ using TMPro;
 public class Block : MonoBehaviour
 {
     // Start is called before the first frame update
-    private SpriteRenderer spriteRenderer;
+    private SpriteRenderer spriteRenderer,backgroundSprite;
     public Image progressBar;
-    private TextMeshProUGUI pBtext;
     public Color normalColor;
     bool ready = false;
     public Color readyColor;
     public Color activeColor;
+    public Color placedColor;
     public Color brokenColor;
     public float holdTime = 3f;
     private float breakThreshold = 0.25f;
@@ -51,9 +51,10 @@ public class Block : MonoBehaviour
         BlockState = BlockState.Moving;
         StartCoroutine(MoveBlock());
         spriteRenderer = transform.GetChild(0).GetComponent<SpriteRenderer>();
-        pBtext = progressBar.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
+        backgroundSprite = transform.GetChild(1).GetComponent<SpriteRenderer>();
         ProgressBar(0f, false);
-        SetColor(normalColor, 1f);
+        SetColor(normalColor, 0f);
+        SetColor(normalColor, 0.1f, true);
     }
 
     /// <summary>
@@ -67,11 +68,16 @@ public class Block : MonoBehaviour
             if (context.performed)
             {
                 SetColor(readyColor, 0f);
+                SetColor(readyColor, 0.1f, true);
                 isDown = true;
                 Debug.Log("Tapped");
                 ready = true;
                 BlockState = BlockState.Ready;
             }
+        }
+        if (context.canceled)
+        {
+            Debug.Log("finger up");
         }
 
     }
@@ -88,6 +94,7 @@ public class Block : MonoBehaviour
             holdCoroutine = StartCoroutine(HoldForSeconds());
             isDown = true;
             SetColor(readyColor, 0f);
+            SetColor(readyColor,0.1f,true);
         }
         else if (context.canceled)
         {
@@ -123,9 +130,23 @@ public class Block : MonoBehaviour
         }
         if (isDown)
             BreakBlock();
+        else
+            ConfirmPlacement();
+
 
 
         holdCoroutine = null;
+    }
+
+    private void ConfirmPlacement()
+    {
+        ready = false;
+        BlockState = BlockState.Placed;
+        SetColor(placedColor, 1f);
+        BlockManager.instance.CreateBlock();
+        progressBar.gameObject.SetActive(false);
+        BlockManager.instance.AddToStack();
+        
     }
 
     /// <summary>
@@ -133,6 +154,8 @@ public class Block : MonoBehaviour
     /// </summary>
     private void ActivateBlock()
     {
+
+        Debug.Log("Activated");	
         SetColor(activeColor, 1f);
     }
 
@@ -144,6 +167,10 @@ public class Block : MonoBehaviour
     public void BreakBlock()
     {
         SetColor(brokenColor, 1f);
+        BlockState = BlockState.Broken;
+        Destroy(gameObject, 0.5f);
+        
+        BlockManager.instance.CreateBlock();
     }
 
     /// <summary>
@@ -156,17 +183,13 @@ public class Block : MonoBehaviour
         if (progressBar.gameObject.activeSelf)
         {
             progressBar.fillAmount = value;
-            pBtext.text = value.ToString("P0");
             if (value == 0f)
             {
-                pBtext.text = "";
-                pBtext.color = Color.white;
                 progressBar.color = Color.white;
                 finished = false;
             }
             else if (value == 1f)
             {
-                pBtext.color = Color.green;
                 progressBar.color = Color.green;
                 finished = true;
 
@@ -207,10 +230,27 @@ public class Block : MonoBehaviour
     /// </summary>
     /// <param name="color">The RGB Color</param>
     /// <param name="alpha">The new transparency</param>
-    private void SetColor(Color color, float alpha)
+    private void SetColor(Color color, float alpha,bool background = false)
     {
         color.a = alpha;
-        spriteRenderer.color = color;
+        if (background)
+        {
+            backgroundSprite.color = color;
+        }
+        else
+        {
+            spriteRenderer.color = color;
+        }
     }
 
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Floor") && BlockManager.instance.GetStackSize() > 0)
+        {
+
+            BreakBlock();
+        }
+
+    }
 }
