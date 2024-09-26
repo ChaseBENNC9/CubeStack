@@ -8,6 +8,7 @@ public class BlockManager : MonoBehaviour
     [SerializeField] private Transform blockSpawnPoint; 
     public static BlockManager instance;
     private int stackSize = 0;
+    public bool canCreate = true;
     private void Awake()
     {
         instance = this;
@@ -22,9 +23,13 @@ public class BlockManager : MonoBehaviour
 
     public void CreateBlock()
     {
-        GameObject block = Instantiate(blockPrefab, transform);
-        block.transform.position = blockSpawnPoint.position;
-        block.transform.parent = gameObject.transform.parent;
+        if (canCreate)
+        {
+            GameObject block = Instantiate(blockPrefab, transform);
+            block.transform.position = blockSpawnPoint.position;
+            block.transform.parent = gameObject.transform.parent;
+            canCreate = false;
+        }
     }
 
     public void AddToStack()

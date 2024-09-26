@@ -32,6 +32,7 @@ public class Block : MonoBehaviour
             if (blockState == BlockState.Ready)
             {
                 GetComponent<Rigidbody2D>().gravityScale = 1;
+                BlockManager.instance.canCreate = true;
             }
             else if (blockState == BlockState.Moving)
             {
@@ -143,9 +144,9 @@ public class Block : MonoBehaviour
         ready = false;
         BlockState = BlockState.Placed;
         SetColor(placedColor, 1f);
+        BlockManager.instance.AddToStack();
         BlockManager.instance.CreateBlock();
         progressBar.gameObject.SetActive(false);
-        BlockManager.instance.AddToStack();
         
     }
 
