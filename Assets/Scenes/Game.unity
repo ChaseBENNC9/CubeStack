@@ -153,6 +153,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   blockPrefab: {fileID: 2170000349665347256, guid: 587ffe55e73e86741ba649b2fdb417c8, type: 3}
   blockSpawnPoint: {fileID: 1212990459}
+  blockStack:
+    _elements: []
   canCreate: 1
 --- !u!4 &55278783
 Transform:
@@ -163,7 +165,7 @@ Transform:
   m_GameObject: {fileID: 55278781}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.393637, y: -1.9523406, z: -0.032647714}
+  m_LocalPosition: {x: 0, y: 0, z: -0.032647714}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -364,7 +366,7 @@ Transform:
   m_GameObject: {fileID: 1212990458}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

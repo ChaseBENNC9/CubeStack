@@ -47,6 +47,10 @@ public class Block : MonoBehaviour
     }
 
 
+    public float BlockHeight()
+    {
+        return gameObject.transform.position.y;
+    }
     private void Start()
     {
         BlockState = BlockState.Moving;
@@ -130,7 +134,7 @@ public class Block : MonoBehaviour
 
         }
         if (isDown)
-            BreakBlock();
+            BreakBlock(false);
         else
             ConfirmPlacement();
 
@@ -143,8 +147,9 @@ public class Block : MonoBehaviour
     {
         ready = false;
         BlockState = BlockState.Placed;
+        BlockManager.instance.AddToStack(this);
+        BlockManager.instance.SetSpawnLevel();
         SetColor(placedColor, 1f);
-        BlockManager.instance.AddToStack();
         BlockManager.instance.CreateBlock();
         progressBar.gameObject.SetActive(false);
         
@@ -165,12 +170,12 @@ public class Block : MonoBehaviour
     /// <summary>
     /// Breaks the Block when the player holds it for too long.
     /// </summary>
-    public void BreakBlock()
+    public void BreakBlock(bool floor)
     {
         SetColor(brokenColor, 1f);
         BlockState = BlockState.Broken;
-        Destroy(gameObject, 0.5f);
-        
+        BlockManager.instance.RemoveFromStack(this);
+        BlockManager.instance.SetSpawnLevel();
         BlockManager.instance.CreateBlock();
     }
 
@@ -250,7 +255,7 @@ public class Block : MonoBehaviour
         if (collision.gameObject.CompareTag("Floor") && BlockManager.instance.GetStackSize() > 0)
         {
 
-            BreakBlock();
+            BreakBlock(true);
         }
 
     }
