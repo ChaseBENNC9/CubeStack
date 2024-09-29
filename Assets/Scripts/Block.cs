@@ -35,6 +35,7 @@ public class Block : MonoBehaviour
             {
                 GetComponent<Rigidbody2D>().gravityScale = 1;
                 BlockManager.instance.canCreate = true;
+                BlockManager.instance.ghostBlock = null;
             }
             else if (blockState == BlockState.Moving)
             {
@@ -52,6 +53,7 @@ public class Block : MonoBehaviour
 
     public float BlockHeight()
     {
+        Debug.Log("The Block Y " + gameObject.transform.position.y);
         return gameObject.transform.position.y;
     }
     private void Start()

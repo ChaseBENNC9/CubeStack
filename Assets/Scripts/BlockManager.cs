@@ -10,6 +10,7 @@ public class BlockManager : MonoBehaviour
     public static BlockManager instance;
     private int stackSize = 0;
     [SerializeField] private List<Block> blockStack;
+    [SerializeField] public GameObject ghostBlock;
 
     public bool canCreate = true;
     private void Awake()
@@ -27,12 +28,19 @@ public class BlockManager : MonoBehaviour
 
     public void CreateBlock()
     {
-        if (canCreate)
+        //if (canCreate)
         {
+            if (ghostBlock != null)
+            {
+                Destroy(ghostBlock);
+                Debug.Log("Destroying Ghost Block");
+            }
+            
             GameObject block = Instantiate(blockPrefab, transform);
             block.transform.position = blockSpawnPoint.position;
             block.transform.parent = gameObject.transform.parent;
-            canCreate = false;
+            ghostBlock = block;
+          //  canCreate = false;
         }
     }
     public void SetSpawnLevel()
