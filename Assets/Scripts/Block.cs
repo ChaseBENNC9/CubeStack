@@ -282,7 +282,7 @@ public class Block : MonoBehaviour
 
             BreakBlock();
         }
-        if (collision.gameObject.CompareTag("Block") && BlockState == BlockState.Weakened)
+        if (collision.gameObject.CompareTag("Block") && BlockState == BlockState.Weakened && collision.gameObject.GetComponent<Block>().BlockState != BlockState.Broken)
         {
           HandleRandomBreak();
         }

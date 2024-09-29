@@ -41,6 +41,7 @@ public class BlockManager : MonoBehaviour
             block.transform.parent = gameObject.transform.parent;
             ghostBlock = block;
           //  canCreate = false;
+          
         }
     }
     public void SetSpawnLevel()
