@@ -153,34 +153,41 @@ public class Block : MonoBehaviour
     }
 
 
+
+/// <summary>
+/// Places the Block in the stack and sets the color based on the score and the state of the Block.
+/// </summary>
+/// <param name="score">How Much score the placement is worth</param>
+/// <param name="state">what state the placed block is in</param>
+/// <param name="colorIntensity">tbe intensity of the block color</param>
+
+private void PlaceBlock(int score, BlockState state, float colorIntensity)
+    {
+        DoPopup();
+        ScoreManager.instance.AddScore(score);
+        ready = false;
+        BlockState = state;
+        BlockManager.instance.AddToStack(this);
+        BlockManager.instance.SetSpawnLevel();
+        SetColor(placedColor, colorIntensity);
+        BlockManager.instance.CreateBlock();
+        progressBar.gameObject.SetActive(false);
+    }
+
+    /// <summary>
+    /// Calls the PlaceBlock function for a weakened block.
+    /// </summary>
     private void PlaceWeakenedBlock()
     {
-        DoPopup();
-        ScoreManager.instance.AddScore(1);
-        ready = false;
-        BlockState = BlockState.Weakened;
-        BlockManager.instance.AddToStack(this);
-        BlockManager.instance.SetSpawnLevel();
-        BlockManager.instance.CreateBlock();
-        SetColor(placedColor, blockStrength / 100f);
-        BlockManager.instance.CreateBlock();
-        progressBar.gameObject.SetActive(false);
-
+        PlaceBlock(1, BlockState.Weakened, blockStrength / 100f);
 
     }
+    /// <summary>
+    /// Calls the PlaceBlock function for a perfectly placed block.
+    /// </summary>
     private void PlacePerfectBlock()
     {
-        DoPopup();
-        ScoreManager.instance.AddScore(2);
-        ready = false;
-        BlockState = BlockState.Placed;
-        BlockManager.instance.AddToStack(this);
-        BlockManager.instance.SetSpawnLevel();
-        SetColor(placedColor, 1f);
-        BlockManager.instance.CreateBlock();
-        progressBar.gameObject.SetActive(false);
-
-        
+        PlaceBlock(2, BlockState.Placed, 1f);
     }
 
 
