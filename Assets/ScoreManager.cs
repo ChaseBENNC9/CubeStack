@@ -8,6 +8,7 @@ public class ScoreManager : MonoBehaviour
     private int currentScore;
 
     [SerializeField] private TMPro.TextMeshProUGUI scoreText;
+    [SerializeField] private GameObject lastScoreLine;
     private void Awake()
     {
         instance = this;
@@ -17,10 +18,31 @@ public class ScoreManager : MonoBehaviour
         currentScore = 0;
         scoreText.text = currentScore.ToString();
     }
+    void Update()
+    {
+        
+    }
 
     public void AddScore(int score)
     {
+        if(score < 0)
+        {
+            if(currentScore  + score < 0)
+            {
+                currentScore = 0;
+            }
+            else
+            {
+                currentScore += score;
+            }
+        }
+        else
+        {
         currentScore += score;
+        }
         scoreText.text = currentScore.ToString();
+
     }
+
+
 }

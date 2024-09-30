@@ -55,7 +55,10 @@ public class BlockManager : MonoBehaviour
         blockSpawnPoint.position = new Vector3(transform.position.x,blockStack[blockStack.Count - 1].BlockHeight() + SPAWN_OFFSET,transform.position.z);
     }
 
-
+public float GetHighestBlock()
+{
+    return blockStack[blockStack.Count - 1].BlockHeight();
+}
 /// <summary>
 /// Adds a block to the stack
 /// </summary>
