@@ -156,6 +156,7 @@ public class Block : MonoBehaviour
     private void PlaceWeakenedBlock()
     {
         DoPopup();
+        ScoreManager.instance.AddScore(1);
         ready = false;
         BlockState = BlockState.Weakened;
         BlockManager.instance.AddToStack(this);
@@ -165,10 +166,12 @@ public class Block : MonoBehaviour
         BlockManager.instance.CreateBlock();
         progressBar.gameObject.SetActive(false);
 
+
     }
     private void PlacePerfectBlock()
     {
         DoPopup();
+        ScoreManager.instance.AddScore(2);
         ready = false;
         BlockState = BlockState.Placed;
         BlockManager.instance.AddToStack(this);
