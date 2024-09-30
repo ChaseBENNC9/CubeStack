@@ -145,7 +145,7 @@ public class Block : MonoBehaviour
         if (isDown)
             BreakBlock();
         else
-            ConfirmPlacement();
+            PlacePerfectBlock();
 
 
 
@@ -166,7 +166,7 @@ public class Block : MonoBehaviour
         progressBar.gameObject.SetActive(false);
 
     }
-    private void ConfirmPlacement()
+    private void PlacePerfectBlock()
     {
         DoPopup();
         ready = false;
