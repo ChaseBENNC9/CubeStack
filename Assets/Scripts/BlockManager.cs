@@ -10,15 +10,12 @@ public class BlockManager : MonoBehaviour
     private const float SPAWN_OFFSET = 2f;
     public static BlockManager instance;
     private int stackSize = 0;
-    [SerializeField] private List<Block> blockStack;
-    [SerializeField] public GameObject ghostBlock;
-
-    public bool canCreate = true;
+     private List<Block> blockStack;
+    [HideInInspector] public GameObject ghostBlock;
     private void Awake()
     {
         instance = this;
     }
-    // Start is called before the first frame update
     void Start()
     {
         blockStack = new List<Block>();
@@ -26,10 +23,11 @@ public class BlockManager : MonoBehaviour
     }
 
 
-
+/// <summary>
+/// Creates a new block and sets it as the ghost block
+/// </summary>
     public void CreateBlock()
     {
-        //if (canCreate)
         {
             if (ghostBlock != null)
             {
@@ -41,10 +39,13 @@ public class BlockManager : MonoBehaviour
             block.transform.position = blockSpawnPoint.position;
             block.transform.parent = gameObject.transform.parent;
             ghostBlock = block;
-          //  canCreate = false;
           
         }
     }
+
+    /// <summary>
+    /// Sets where the next block will spawn
+    /// </summary>
     public void SetSpawnLevel()
     {
         if (blockStack.Count == 0)
@@ -54,6 +55,11 @@ public class BlockManager : MonoBehaviour
         blockSpawnPoint.position = new Vector3(transform.position.x,blockStack[blockStack.Count - 1].BlockHeight() + SPAWN_OFFSET,transform.position.z);
     }
 
+
+/// <summary>
+/// Adds a block to the stack
+/// </summary>
+/// <param name="block">The Block instance</param>
     public void AddToStack(Block block)
     {
         stackSize++;
@@ -61,6 +67,10 @@ public class BlockManager : MonoBehaviour
         Camera.main.GetComponent<CameraController>().topCube = block.transform;
 
     }
+    /// <summary>
+    /// Removes a block from the stack
+    /// </summary>
+    /// <param name="block">The Block instance</param>
     public void RemoveFromStack(Block block)
     {
         if (blockStack.Count != 0 && blockStack.Contains(block))
@@ -70,6 +80,11 @@ public class BlockManager : MonoBehaviour
         }
 
     }
+
+    /// <summary>
+    /// Gets the current stack size
+    /// </summary>
+    /// <returns>the current size of the block stack </returns>
 
     public int GetStackSize()
     {

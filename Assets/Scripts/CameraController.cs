@@ -27,7 +27,6 @@ public class CameraController : MonoBehaviour
         }
         else
         {
-            // Optionally, reset to the initial position if no top cube exists
             transform.position = initialPosition;
         }
     }

@@ -8,6 +8,12 @@ public class PopUp : MonoBehaviour
 {
 
 
+
+/// <summary>
+/// Creates a pop up message with the given message and color
+/// </summary>
+/// <param name="message"></param>
+/// <param name="color"></param>
     public void CreatePopUp(string message, Color color)
     {
         GetComponent<TextMeshProUGUI>().text = message;
@@ -16,6 +22,9 @@ public class PopUp : MonoBehaviour
     }
 
 
+/// <summary>
+/// Destroys the pop up message, called by the animation event
+/// </summary>
     void DestroySelf()
     {
         Destroy(gameObject);

@@ -35,7 +35,6 @@ public class Block : MonoBehaviour
             if (blockState == BlockState.Ready)
             {
                 GetComponent<Rigidbody2D>().gravityScale = 1;
-                BlockManager.instance.canCreate = true;
                 BlockManager.instance.ghostBlock = null;
             }
             else if (blockState == BlockState.Moving)
