@@ -25,6 +25,7 @@ public class Block : MonoBehaviour
     private int blockStrength = 100;
     [SerializeField] private BlockState blockState;
     [SerializeField] private TextMeshProUGUI strengthtext;
+    private PopUp popup;
 
     public BlockState BlockState
     {
@@ -62,6 +63,8 @@ public class Block : MonoBehaviour
         StartCoroutine(MoveBlock());
         spriteRenderer = transform.GetChild(0).GetComponent<SpriteRenderer>();
         backgroundSprite = transform.GetChild(1).GetComponent<SpriteRenderer>();
+        popup = transform.Find("Canvas").transform.Find("PopUp").GetComponent<PopUp>();
+        popup.GetComponent<Animator>().enabled = false;
         ProgressBar(0f, false);
         SetColor(normalColor, 0f);
         SetColor(normalColor, 0.1f, true);
@@ -153,6 +156,7 @@ public class Block : MonoBehaviour
 
     private void PlaceWeakenedBlock()
     {
+        DoPopup();
         ready = false;
         BlockState = BlockState.Weakened;
         BlockManager.instance.AddToStack(this);
@@ -161,9 +165,11 @@ public class Block : MonoBehaviour
         SetColor(placedColor, blockStrength / 100f);
         BlockManager.instance.CreateBlock();
         progressBar.gameObject.SetActive(false);
+
     }
     private void ConfirmPlacement()
     {
+        DoPopup();
         ready = false;
         BlockState = BlockState.Placed;
         BlockManager.instance.AddToStack(this);
@@ -171,7 +177,41 @@ public class Block : MonoBehaviour
         SetColor(placedColor, 1f);
         BlockManager.instance.CreateBlock();
         progressBar.gameObject.SetActive(false);
+
         
+    }
+
+
+
+    private void DoPopup()
+    {
+        if (popup != null)
+        {
+            if(blockStrength == 100)
+            {
+                popup.CreatePopUp("Perfect", new Color(1,0.75f,0));
+            }
+            else if (blockStrength < 100 && blockStrength >= 75)
+            {
+                popup.CreatePopUp("Great", Color.green);
+            }
+            else if (blockStrength < 75 && blockStrength >= 50)
+            {
+                popup.CreatePopUp("Good", Color.blue);
+            }
+            else if (blockStrength < 50 && blockStrength >= 25)
+            {
+                popup.CreatePopUp("Okay", new Color(1f, 0.5f, 0f));
+            }
+            else if (blockStrength < 25)
+            {
+
+                popup.CreatePopUp("Needs Work", Color.red);
+            }
+
+
+
+        }
     }
 
     /// <summary>

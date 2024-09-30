@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Net.Mail;
 using UnityEngine;
 
 public class BlockManager : MonoBehaviour
@@ -57,6 +58,7 @@ public class BlockManager : MonoBehaviour
     {
         stackSize++;
         blockStack.Add(block);
+        Camera.main.GetComponent<CameraController>().topCube = block.transform;
 
     }
     public void RemoveFromStack(Block block)
