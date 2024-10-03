@@ -247,6 +247,7 @@ private void PlaceBlock(int score, BlockState state, float colorIntensity)
         {
             BlockManager.instance.SetSpawnLevel();
             BlockManager.instance.CreateBlock();
+            StrikeManager.instance.AddStrike();
         }
         ScoreManager.instance.AddScore(-1);
         Destroy(gameObject,0.25f);
