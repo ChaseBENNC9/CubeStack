@@ -79,6 +79,7 @@ public float GetHighestBlock()
         {
             blockStack.Remove(block);
             stackSize--;
+            Camera.main.GetComponent<CameraController>().topCube = blockStack[blockStack.Count - 1].transform;
         }
 
     }

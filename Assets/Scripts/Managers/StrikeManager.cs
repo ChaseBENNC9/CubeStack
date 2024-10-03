@@ -33,7 +33,7 @@ public class StrikeManager : MonoBehaviour
             }
         }
     }
-    public const int MAX_STRIKES = 3;
+    public const int MAX_STRIKES = 1000;
     // Start is called before the first frame update
     void Start()
     {
