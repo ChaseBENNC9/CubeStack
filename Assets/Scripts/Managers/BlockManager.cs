@@ -19,7 +19,6 @@ public class BlockManager : MonoBehaviour
     void Start()
     {
         blockStack = new List<Block>();
-        CreateBlock();
     }
 
 
