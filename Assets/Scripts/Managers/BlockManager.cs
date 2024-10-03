@@ -87,6 +87,8 @@ public float GetHighestBlock()
             {
                 Camera.main.GetComponent<CameraController>().topCube = null;
             }
+            ScoreManager.instance.AddScore(-1);
+
         }
 
     }
