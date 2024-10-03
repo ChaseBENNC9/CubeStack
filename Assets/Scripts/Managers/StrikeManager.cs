@@ -29,11 +29,18 @@ public class StrikeManager : MonoBehaviour
             strikeCount = value;
             if (strikeCount >= MAX_STRIKES)
             {
+                GameManager.lastScore = BlockManager.instance.GetStackSize();
+                if (BlockManager.instance.GetStackSize() > GameManager.bestScore)
+                {
+                    GameManager.UpdateBestScore(BlockManager.instance.GetStackSize());
+                    GameManager.SaveGame();
+                }
+  
                 GameManager.GameOver();
             }
         }
     }
-    public const int MAX_STRIKES = 1000;
+    public const int MAX_STRIKES = 3;
     // Start is called before the first frame update
     void Start()
     {

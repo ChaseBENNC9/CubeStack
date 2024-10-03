@@ -374,6 +374,7 @@ MonoBehaviour:
   placeholderBlock: {fileID: 459325222}
   menuCanvas: {fileID: 853194139}
   gameCanvas: {fileID: 208631557}
+  bestScoreText: {fileID: 1884482390}
 --- !u!4 &57589123
 Transform:
   m_ObjectHideFlags: 0

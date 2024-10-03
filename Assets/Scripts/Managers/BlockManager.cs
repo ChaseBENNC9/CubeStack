@@ -9,8 +9,8 @@ public class BlockManager : MonoBehaviour
     [SerializeField] private Transform blockSpawnPoint; 
     private const float SPAWN_OFFSET = 2f;
     public static BlockManager instance;
-    private int stackSize = 0;
-     private List<Block> blockStack;
+    public int stackSize = 0;
+     public List<Block> blockStack;
     [HideInInspector] public GameObject ghostBlock;
     private void Awake()
     {
@@ -79,7 +79,14 @@ public float GetHighestBlock()
         {
             blockStack.Remove(block);
             stackSize--;
-            Camera.main.GetComponent<CameraController>().topCube = blockStack[blockStack.Count - 1].transform;
+            if (blockStack.Count != 0)
+            {
+                Camera.main.GetComponent<CameraController>().topCube = blockStack[blockStack.Count - 1].transform;
+            }
+            else
+            {
+                Camera.main.GetComponent<CameraController>().topCube = null;
+            }
         }
 
     }
