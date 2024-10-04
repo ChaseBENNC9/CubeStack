@@ -10,6 +10,8 @@ public class ScoreManager : MonoBehaviour
 
     [SerializeField] private TMPro.TextMeshProUGUI scoreText;
     [SerializeField] private GameObject scoreIndicatorPrefab;
+    private bool passedLastScore = false;
+    private bool passedBestScore = false;
     private void Awake()
     {
         instance = this;
@@ -44,19 +46,41 @@ public class ScoreManager : MonoBehaviour
         scoreText.text = currentScore.ToString();
         if (score >= GameManager.lastScore)
         {
-            GameObject scoreIndicator = Instantiate(scoreIndicatorPrefab,transform.parent);
-            scoreIndicator.transform.position = new Vector3(-2.25f, BlockManager.instance.GetHighestBlock() + 0.5f, scoreIndicator.transform.position.z);
-
-            scoreIndicator.transform.Find("text").GetComponent<TMPro.TextMeshProUGUI>().text = "Previous: " + score.ToString();
+            CreateScoreIndicator(true, score);
         }
         if (score >= GameManager.bestScore)
         {
-            GameObject scoreIndicator = Instantiate(scoreIndicatorPrefab, transform.parent);
-            scoreIndicator.transform.position = new Vector3(-2.25f, BlockManager.instance.GetHighestBlock() + 0.5f, scoreIndicator.transform.position.z);
-            scoreIndicator.transform.Find("text").GetComponent<TMPro.TextMeshProUGUI>().text = "Best: " + score.ToString();
+            CreateScoreIndicator(false, score);
         }
 
     }
+    private void CreateScoreIndicator(bool isPrevious, int score)
+    {
+
+        if (isPrevious && passedLastScore)
+        {
+            return;
+        }
+        if (!isPrevious && passedBestScore)
+        {
+            return;
+        }
+
+            GameObject scoreIndicator = Instantiate(scoreIndicatorPrefab, transform.parent);
+            scoreIndicator.transform.position = new Vector3(-2.25f, BlockManager.instance.GetHighestBlock() + 0.5f, scoreIndicator.transform.position.z);
+            scoreIndicator.transform.localScale = 3 * scoreIndicator.transform.localScale;
+            if(isPrevious)
+            {
+                scoreIndicator.transform.Find("text").GetComponent<TMPro.TextMeshProUGUI>().text = "Previous: " + score.ToString();
+                passedLastScore = true;
+            }
+            else
+            {
+                scoreIndicator.transform.Find("text").GetComponent<TMPro.TextMeshProUGUI>().text = "Best: " + score.ToString();
+                passedBestScore = true;
+            }
+    }
+     
 
 
 }
