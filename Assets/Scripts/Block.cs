@@ -164,10 +164,10 @@ public class Block : MonoBehaviour
 private void PlaceBlock(int score, BlockState state, float colorIntensity)
     {
         DoPopup();
+        BlockManager.instance.AddToStack(this);
         ScoreManager.instance.AddScore(score);
         ready = false;
         BlockState = state;
-        BlockManager.instance.AddToStack(this);
         BlockManager.instance.SetSpawnLevel();
         SetColor(placedColor, colorIntensity);
         BlockManager.instance.CreateBlock();

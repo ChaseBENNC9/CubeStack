@@ -326,6 +326,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   blockPrefab: {fileID: 2170000349665347256, guid: 587ffe55e73e86741ba649b2fdb417c8, type: 3}
   blockSpawnPoint: {fileID: 1212990459}
+  stackSize: 0
+  blockStack: []
   ghostBlock: {fileID: 0}
 --- !u!4 &55278783
 Transform:
@@ -1059,7 +1061,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scoreText: {fileID: 270684536}
-  lastScoreLine: {fileID: 0}
+  scoreIndicatorPrefab: {fileID: 2711794322457931670, guid: 61799d5b2a1ecc64996938a9b43f4770, type: 3}
 --- !u!4 &802920287
 Transform:
   m_ObjectHideFlags: 0

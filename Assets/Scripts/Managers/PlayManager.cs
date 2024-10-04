@@ -10,6 +10,12 @@ public class PlayManager : MonoBehaviour
     public GameObject menuCanvas;
     public GameObject gameCanvas;
     public TextMeshProUGUI bestScoreText;
+    public static PlayManager instance;
+
+    private void Awake()
+    {
+        instance = this;
+    }
 
     public void StartGame()
     {

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ScoreManager : MonoBehaviour
 {
@@ -43,13 +44,16 @@ public class ScoreManager : MonoBehaviour
         scoreText.text = currentScore.ToString();
         if (score >= GameManager.lastScore)
         {
-            GameObject scoreIndicator = Instantiate(scoreIndicatorPrefab, transform);
-            scoreIndicator.GetComponent<TMPro.TextMeshProUGUI>().text = "Previous: " + score.ToString();
+            GameObject scoreIndicator = Instantiate(scoreIndicatorPrefab,transform.parent);
+            scoreIndicator.transform.position = new Vector3(-2.25f, BlockManager.instance.GetHighestBlock() + 0.5f, scoreIndicator.transform.position.z);
+
+            scoreIndicator.transform.Find("text").GetComponent<TMPro.TextMeshProUGUI>().text = "Previous: " + score.ToString();
         }
         if (score >= GameManager.bestScore)
         {
-            GameObject scoreIndicator = Instantiate(scoreIndicatorPrefab, transform);
-            scoreIndicator.GetComponent<TMPro.TextMeshProUGUI>().text = "Best: " + score.ToString();
+            GameObject scoreIndicator = Instantiate(scoreIndicatorPrefab, transform.parent);
+            scoreIndicator.transform.position = new Vector3(-2.25f, BlockManager.instance.GetHighestBlock() + 0.5f, scoreIndicator.transform.position.z);
+            scoreIndicator.transform.Find("text").GetComponent<TMPro.TextMeshProUGUI>().text = "Best: " + score.ToString();
         }
 
     }
