@@ -30,12 +30,13 @@ public class StrikeManager : MonoBehaviour
             if (strikeCount >= MAX_STRIKES)
             {
                 GameManager.lastScore = BlockManager.instance.GetStackSize();
+                Debug.Log("Last Score: " + GameManager.lastScore);
                 if (BlockManager.instance.GetStackSize() > GameManager.bestScore)
                 {
                     GameManager.UpdateBestScore(BlockManager.instance.GetStackSize());
-                    GameManager.SaveGame();
                 }
   
+                GameManager.SaveGame();
                 GameManager.GameOver();
             }
         }

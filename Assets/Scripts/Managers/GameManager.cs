@@ -35,6 +35,7 @@ public static class GameManager
     {
         SaveData data = new SaveData(bestScore, lastScore);
         saveData = data;
+        Debug.Log("Saving Data: " + saveData.bestScore + " " + saveData.lastScore);
         string json = JsonUtility.ToJson(data);
         PlayerPrefs.SetString("SaveData", json);
         PlayerPrefs.Save();
@@ -51,6 +52,7 @@ public static class GameManager
             {
                 bestScore = data.bestScore;
                 lastScore = data.lastScore;
+                Debug.Log("Save Data Loaded " + bestScore + " " + lastScore);
             }
             else
             {
