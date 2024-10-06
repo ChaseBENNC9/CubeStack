@@ -10,8 +10,8 @@ public class ScoreManager : MonoBehaviour
 
     [SerializeField] private TMPro.TextMeshProUGUI scoreText;
     [SerializeField] private GameObject scoreIndicatorPrefab;
-    private bool passedLastScore = false;
-    private bool passedBestScore = false;
+    public bool passedLastScore = false;
+    public bool passedBestScore = false;
     private void Awake()
     {
         instance = this;
@@ -23,14 +23,14 @@ public class ScoreManager : MonoBehaviour
     }
     void Update()
     {
-        
+
     }
 
     public void AddScore(int score)
     {
-        if(score < 0)
+        if (score < 0)
         {
-            if(currentScore  + score < 0)
+            if (currentScore + score < 0)
             {
                 currentScore = 0;
             }
@@ -41,46 +41,48 @@ public class ScoreManager : MonoBehaviour
         }
         else
         {
-        currentScore += score;
+            currentScore += score;
         }
         scoreText.text = currentScore.ToString();
-        if (score >= GameManager.lastScore)
+        Debug.Log("Current Score: " + currentScore + " Best Score: " + GameManager.bestScore + " Last Score: " + GameManager.lastScore);
+        if (currentScore >= GameManager.bestScore && !passedBestScore)
         {
-            CreateScoreIndicator(true, score);
+            CreateScoreIndicator(false, currentScore);
         }
-        if (score >= GameManager.bestScore)
+        if (currentScore >= GameManager.lastScore && !passedLastScore)
         {
-            CreateScoreIndicator(false, score);
+            CreateScoreIndicator(true, currentScore);
         }
 
     }
     private void CreateScoreIndicator(bool isPrevious, int score)
     {
 
-        if (isPrevious && passedLastScore)
-        {
-            return;
-        }
-        if (!isPrevious && passedBestScore)
-        {
-            return;
-        }
 
-            GameObject scoreIndicator = Instantiate(scoreIndicatorPrefab, transform.parent);
-            scoreIndicator.transform.position = new Vector3(-2.25f, BlockManager.instance.GetHighestBlock() + 0.5f, scoreIndicator.transform.position.z);
-            scoreIndicator.transform.localScale = 3 * scoreIndicator.transform.localScale;
-            if(isPrevious)
-            {
-                scoreIndicator.transform.Find("text").GetComponent<TMPro.TextMeshProUGUI>().text = "Previous: " + score.ToString();
+
+        GameObject scoreIndicator = scoreIndicatorPrefab;
+        
+        if (isPrevious)
+        {
+
+
+                scoreIndicator.transform.Find("text").GetComponent<TMPro.TextMeshProUGUI>().text = "Previous: " + GameManager.lastScore.ToString();
+                Instantiate(scoreIndicator,new Vector3(-2.25f, BlockManager.instance.GetHighestBlock() + 0.5f, scoreIndicator.transform.position.z),Quaternion.identity,transform.parent);
                 passedLastScore = true;
-            }
-            else
-            {
-                scoreIndicator.transform.Find("text").GetComponent<TMPro.TextMeshProUGUI>().text = "Best: " + score.ToString();
+            
+        }
+        else if (!isPrevious)
+        {
+  
+            
+                scoreIndicator.transform.Find("text").GetComponent<TMPro.TextMeshProUGUI>().text = "Best: " + GameManager.bestScore.ToString();
+                Instantiate(scoreIndicator,new Vector3(-2.25f, BlockManager.instance.GetHighestBlock() + 0.5f, scoreIndicator.transform.position.z),Quaternion.identity,transform.parent);
                 passedBestScore = true;
-            }
+            
+        }
+            Debug.Log(scoreIndicator.transform.position + " " + scoreIndicator.transform.localPosition);
     }
-     
+
 
 
 }

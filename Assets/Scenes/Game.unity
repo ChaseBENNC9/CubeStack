@@ -1062,6 +1062,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scoreText: {fileID: 270684536}
   scoreIndicatorPrefab: {fileID: 2711794322457931670, guid: 61799d5b2a1ecc64996938a9b43f4770, type: 3}
+  passedLastScore: 0
+  passedBestScore: 0
 --- !u!4 &802920287
 Transform:
   m_ObjectHideFlags: 0
