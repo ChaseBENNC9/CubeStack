@@ -53,7 +53,6 @@ public class Block : MonoBehaviour
 
     public float BlockHeight()
     {
-        Debug.Log("The Block Y " + gameObject.transform.position.y);
         return gameObject.transform.position.y;
     }
     private void Start()

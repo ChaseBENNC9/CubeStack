@@ -51,12 +51,13 @@ public class BlockManager : MonoBehaviour
         {
             return;
         }
-        blockSpawnPoint.position = new Vector3(transform.position.x,blockStack[blockStack.Count - 1].BlockHeight() + SPAWN_OFFSET,transform.position.z);
+        blockSpawnPoint.position = new Vector3(transform.position.x,blockStack[0].BlockHeight() + SPAWN_OFFSET,transform.position.z);
     }
 
 public float GetHighestBlock()
 {
-    return blockStack[blockStack.Count - 1].BlockHeight();
+    Debug.Log("Highest Block: " + blockStack[0].BlockHeight());
+    return blockStack[0].BlockHeight();
 }
 /// <summary>
 /// Adds a block to the stack
@@ -65,7 +66,7 @@ public float GetHighestBlock()
     public void AddToStack(Block block)
     {
         stackSize++;
-        blockStack.Add(block);
+        blockStack.Insert(0, block);
         Camera.main.GetComponent<CameraController>().topCube = block.transform;
 
     }
@@ -87,7 +88,6 @@ public float GetHighestBlock()
             {
                 Camera.main.GetComponent<CameraController>().topCube = null;
             }
-            ScoreManager.instance.AddScore(-1);
 
         }
 
