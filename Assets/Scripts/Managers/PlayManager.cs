@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 using TMPro;
 
 public class PlayManager : MonoBehaviour
@@ -11,6 +12,7 @@ public class PlayManager : MonoBehaviour
     public GameObject gameCanvas;
     public TextMeshProUGUI bestScoreText;
     public static PlayManager instance;
+    public static bool onUI = false;
 
     private void Awake()
     {
@@ -41,5 +43,16 @@ public class PlayManager : MonoBehaviour
         bestScoreText.text = GameManager.bestScore.ToString();
     }
 
+private void Update()
+    {
+            if (EventSystem.current.IsPointerOverGameObject())
+            {
+                onUI = true;
+            }
+            else
+            {
+                onUI = false;
+            }
+    }
 
 }

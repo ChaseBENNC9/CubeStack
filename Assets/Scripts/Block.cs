@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using TMPro;
 /// <summary>
@@ -74,6 +75,12 @@ public class Block : MonoBehaviour
     /// <param name="context"></param>
     public void Tap(InputAction.CallbackContext context)
     {
+            if (PlayManager.onUI)
+            {
+                Debug.Log("Over UI");
+                return; // Exit if over UI
+            }
+
         if (BlockState == BlockState.Moving)
         {
             if (context.performed)
@@ -98,6 +105,12 @@ public class Block : MonoBehaviour
     /// </summary>
     public void Hold(InputAction.CallbackContext context)
     {
+            if (PlayManager.onUI)
+            {
+                Debug.Log("Over UI");
+                return; // Exit if over UI
+            }
+
         if (!ready || BlockState != BlockState.Ready)
             return;
         if (context.started)
