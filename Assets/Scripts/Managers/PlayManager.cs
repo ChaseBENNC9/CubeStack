@@ -12,8 +12,8 @@ public class PlayManager : MonoBehaviour
     public GameObject gameCanvas;
     public TextMeshProUGUI bestScoreText;
     public static PlayManager instance;
-    public static bool onUI = false;
-    public static PowerupTypes activePowerup;
+    public  bool onUI = false;
+    public  PowerupTypes activePowerup;
 
     private void Awake()
     {
@@ -47,14 +47,29 @@ public class PlayManager : MonoBehaviour
 
 private void Update()
     {
-            if (EventSystem.current.IsPointerOverGameObject())
+
+        if (EventSystem.current.currentSelectedGameObject != null )
+        {
+
+            if (EventSystem.current.currentSelectedGameObject.tag == "UI")
             {
                 onUI = true;
+                Debug.Log("On UI");
+                Debug.Log(EventSystem.current.currentSelectedGameObject.name);
+
             }
             else
             {
                 onUI = false;
+                Debug.Log("Not on UI");
+                Debug.Log(EventSystem.current.currentSelectedGameObject.name);
             }
+        }
+        else
+        {
+            onUI = false;
+            Debug.Log("Current Selected Game Object is null");
+        }
     }
 
 }

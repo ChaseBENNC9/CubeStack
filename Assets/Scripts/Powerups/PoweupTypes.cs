@@ -1,7 +1,7 @@
 public enum PowerupTypes
 {
+    None,
     Repair,
     Rewind,
-    Perfect,
-    None
+    Perfect
 }

@@ -10,7 +10,7 @@ using TMPro;
 public class Block : MonoBehaviour
 {
     // Start is called before the first frame update
-    private SpriteRenderer spriteRenderer,backgroundSprite;
+    private SpriteRenderer spriteRenderer, backgroundSprite;
     public Image progressBar;
     public Color normalColor;
     bool ready = false;
@@ -75,29 +75,29 @@ public class Block : MonoBehaviour
     /// <param name="context"></param>
     public void Tap(InputAction.CallbackContext context)
     {
-            if (!PlayManager.onUI && PlayManager.activePowerup == PowerupTypes.None)
-            {
-
-            
-
-        if (BlockState == BlockState.Moving)
+        if (!PlayManager.instance.onUI && PlayManager.instance.activePowerup == PowerupTypes.None)
         {
-            if (context.performed)
+
+
+
+            if (BlockState == BlockState.Moving)
             {
-                SetColor(readyColor, 0f);
-                SetColor(readyColor, 0.1f, true);
-                isDown = true;
-                Debug.Log("Tapped");
-                ready = true;
-                BlockState = BlockState.Ready;
+                if (context.performed)
+                {
+                    SetColor(readyColor, 0f);
+                    SetColor(readyColor, 0.1f, true);
+                    isDown = true;
+                    Debug.Log("Tapped");
+                    ready = true;
+                    BlockState = BlockState.Ready;
+                }
             }
+            if (context.canceled)
+            {
+                Debug.Log("finger up");
+            }
+
         }
-        if (context.canceled)
-        {
-            Debug.Log("finger up");
-        }
-           
-         }
 
     }
 
@@ -106,32 +106,31 @@ public class Block : MonoBehaviour
     /// </summary>
     public void Hold(InputAction.CallbackContext context)
     {
-            if (PlayManager.onUI || PlayManager.activePowerup != PowerupTypes.None)
-            {
-                return; // Exit if over UI
-            }
-
-        if (!ready || BlockState != BlockState.Ready)
-            return;
-        if (context.started)
+        if (!PlayManager.instance.onUI && PlayManager.instance.activePowerup == PowerupTypes.None)
         {
-            holdCoroutine = StartCoroutine(HoldForSeconds());
-            isDown = true;
-            SetColor(readyColor, 0f);
-            SetColor(readyColor,0.1f,true);
-        }
-        else if (context.canceled)
-        {
-            if (holdCoroutine != null)
+
+            if (!ready || BlockState != BlockState.Ready)
+                return;
+            if (context.started)
             {
-                StopCoroutine(holdCoroutine);
-                holdCoroutine = null;
-                ProgressBar(blockStrength / 100f);
-                PlaceWeakenedBlock();
-
+                holdCoroutine = StartCoroutine(HoldForSeconds());
+                isDown = true;
+                SetColor(readyColor, 0f);
+                SetColor(readyColor, 0.1f, true);
             }
+            else if (context.canceled)
+            {
+                if (holdCoroutine != null)
+                {
+                    StopCoroutine(holdCoroutine);
+                    holdCoroutine = null;
+                    ProgressBar(blockStrength / 100f);
+                    PlaceWeakenedBlock();
 
-            isDown = false;
+                }
+
+                isDown = false;
+            }
         }
 
     }
@@ -151,6 +150,13 @@ public class Block : MonoBehaviour
                 ProgressBar(1f);
                 holdCoroutine = null;
             }
+            if (PlayManager.instance.onUI || PlayManager.instance.activePowerup != PowerupTypes.None)
+            {
+                ProgressBar(0f);
+                blockState = BlockState.Ready;
+                holdCoroutine = null;
+                yield break;
+            }
             yield return null;
 
         }
@@ -166,14 +172,14 @@ public class Block : MonoBehaviour
 
 
 
-/// <summary>
-/// Places the Block in the stack and sets the color based on the score and the state of the Block.
-/// </summary>
-/// <param name="score">How Much score the placement is worth</param>
-/// <param name="state">what state the placed block is in</param>
-/// <param name="colorIntensity">tbe intensity of the block color</param>
+    /// <summary>
+    /// Places the Block in the stack and sets the color based on the score and the state of the Block.
+    /// </summary>
+    /// <param name="score">How Much score the placement is worth</param>
+    /// <param name="state">what state the placed block is in</param>
+    /// <param name="colorIntensity">tbe intensity of the block color</param>
 
-private void PlaceBlock(int score, BlockState state, float colorIntensity)
+    private void PlaceBlock(int score, BlockState state, float colorIntensity)
     {
         DoPopup();
         BlockManager.instance.AddToStack(this);
@@ -208,9 +214,9 @@ private void PlaceBlock(int score, BlockState state, float colorIntensity)
     {
         if (popup != null)
         {
-            if(blockStrength == 100)
+            if (blockStrength == 100)
             {
-                popup.CreatePopUp("Perfect", new Color(1,0.75f,0));
+                popup.CreatePopUp("Perfect", new Color(1, 0.75f, 0));
             }
             else if (blockStrength < 100 && blockStrength >= 75)
             {
@@ -241,7 +247,7 @@ private void PlaceBlock(int score, BlockState state, float colorIntensity)
     private void ActivateBlock()
     {
 
-        Debug.Log("Activated");	
+        Debug.Log("Activated");
         SetColor(activeColor, 1f);
     }
 
@@ -261,7 +267,7 @@ private void PlaceBlock(int score, BlockState state, float colorIntensity)
             BlockManager.instance.CreateBlock();
             StrikeManager.instance.AddStrike();
         }
-        Destroy(gameObject,0.25f);
+        Destroy(gameObject, 0.25f);
     }
 
     /// <summary>
@@ -318,12 +324,24 @@ private void PlaceBlock(int score, BlockState state, float colorIntensity)
     }
 
 
+    public void IncreaseStrength(int amount)
+    {
+        blockStrength += amount;
+        if (blockStrength > 100)
+        {
+            blockStrength = 100;
+            blockState = BlockState.Placed ;
+        }
+
+        strengthtext.text = ( (float) blockStrength / 100).ToString("P0"); 
+    }
+
     /// <summary>
     /// Changes the color of the Block.
     /// </summary>
     /// <param name="color">The RGB Color</param>
     /// <param name="alpha">The new transparency</param>
-    private void SetColor(Color color, float alpha,bool background = false)
+    private void SetColor(Color color, float alpha, bool background = false)
     {
         color.a = alpha;
         if (background)
@@ -346,7 +364,7 @@ private void PlaceBlock(int score, BlockState state, float colorIntensity)
         }
         if (collision.gameObject.CompareTag("Block") && BlockState == BlockState.Weakened && collision.gameObject.GetComponent<Block>().BlockState != BlockState.Broken)
         {
-          HandleRandomBreak();
+            HandleRandomBreak();
         }
 
     }
@@ -358,7 +376,7 @@ private void PlaceBlock(int score, BlockState state, float colorIntensity)
         {
             BreakBlock(true);
         }
-        Debug.Log(random +  " " + blockStrength);
-        
+        Debug.Log(random + " " + blockStrength);
+
     }
 }
