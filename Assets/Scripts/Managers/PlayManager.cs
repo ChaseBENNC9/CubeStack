@@ -13,6 +13,7 @@ public class PlayManager : MonoBehaviour
     public TextMeshProUGUI bestScoreText;
     public static PlayManager instance;
     public static bool onUI = false;
+    public static PowerupTypes activePowerup;
 
     private void Awake()
     {
@@ -35,6 +36,7 @@ public class PlayManager : MonoBehaviour
         placeholderBlock.SetActive(true);
         menuCanvas.SetActive(true);
         gameCanvas.SetActive(false);
+        activePowerup = PowerupTypes.None;
 
     }
 

@@ -6,6 +6,10 @@ using UnityEngine;
 public class RepairPowerup : Powerup
 {
 
+    private void Start()
+    {
+        powerupType = PowerupTypes.Repair;
+    }
 
     protected override void ActivatePowerup()
     {

@@ -75,11 +75,10 @@ public class Block : MonoBehaviour
     /// <param name="context"></param>
     public void Tap(InputAction.CallbackContext context)
     {
-            if (PlayManager.onUI)
+            if (!PlayManager.onUI && PlayManager.activePowerup == PowerupTypes.None)
             {
-                Debug.Log("Over UI");
-                return; // Exit if over UI
-            }
+
+            
 
         if (BlockState == BlockState.Moving)
         {
@@ -97,6 +96,8 @@ public class Block : MonoBehaviour
         {
             Debug.Log("finger up");
         }
+           
+         }
 
     }
 
@@ -105,9 +106,8 @@ public class Block : MonoBehaviour
     /// </summary>
     public void Hold(InputAction.CallbackContext context)
     {
-            if (PlayManager.onUI)
+            if (PlayManager.onUI || PlayManager.activePowerup != PowerupTypes.None)
             {
-                Debug.Log("Over UI");
                 return; // Exit if over UI
             }
 

@@ -12,6 +12,7 @@ public abstract class Powerup : MonoBehaviour
     public Image backgroundIcon;
     public bool usable = true;
     public bool active = false;
+    public PowerupTypes powerupType;
 
 
 
