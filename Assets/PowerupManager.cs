@@ -6,7 +6,7 @@ using UnityEngine;
 public class PowerupManager : MonoBehaviour
 {
     // Start is called before the first frame update
-    private List<Powerup> powerups;
+   [SerializeField] private List<Powerup> powerups;
     void Start()
     {
         powerups = GameObject.FindObjectsOfType<Powerup>().ToList<Powerup>();

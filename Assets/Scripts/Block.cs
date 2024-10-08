@@ -49,6 +49,10 @@ public class Block : MonoBehaviour
             {
                 GetComponent<Rigidbody2D>().gravityScale = 0;
             }
+            else if (blockState == BlockState.Weakened || blockState == BlockState.Placed)
+            {
+               BlockManager.instance.currentBlock = null;
+            }
 
 
         }
