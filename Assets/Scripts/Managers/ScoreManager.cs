@@ -45,13 +45,14 @@ public class ScoreManager : MonoBehaviour
         }
         scoreText.text = currentScore.ToString();
         Debug.Log("Current Score: " + currentScore + " Best Score: " + GameManager.bestScore + " Last Score: " + GameManager.lastScore);
-        if (currentScore >= GameManager.bestScore && !passedBestScore)
-        {
-            CreateScoreIndicator(false, currentScore);
-        }
         if (currentScore >= GameManager.lastScore && !passedLastScore)
         {
-            CreateScoreIndicator(true, currentScore);
+            if (currentScore >= GameManager.bestScore && !passedBestScore)
+            {
+                CreateScoreIndicator(false, currentScore);
+            }
+            else
+                CreateScoreIndicator(true, currentScore);
         }
 
     }

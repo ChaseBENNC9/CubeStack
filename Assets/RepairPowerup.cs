@@ -31,7 +31,7 @@ public class RepairPowerup : Powerup
                 repairButtons.Add(g);
                 g.name = "RepairButton";
                 g.transform.SetParent(block.gameObject.transform.Find("Canvas"));
-                g.gameObject.GetComponent<RectTransform>().localPosition = new Vector3(1, 0, 0);
+                g.gameObject.GetComponent<RectTransform>().localPosition = new Vector3(0, 0, 0);
                 g.gameObject.GetComponent<RectTransform>().localScale = new Vector3(1, 1, 1);
                 g.GetComponent<Button>().onClick.AddListener(() => RepairThisBlock(block));
                 break;
