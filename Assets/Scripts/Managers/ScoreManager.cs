@@ -47,11 +47,11 @@ public class ScoreManager : MonoBehaviour
         Debug.Log("Current Score: " + currentScore + " Best Score: " + GameManager.bestScore + " Last Score: " + GameManager.lastScore);
         if (currentScore >= GameManager.lastScore && !passedLastScore)
         {
-            if (currentScore >= GameManager.bestScore && !passedBestScore)
+            if (currentScore >= GameManager.bestScore && !passedBestScore && GameManager.bestScore != 0)
             {
                 CreateScoreIndicator(false, currentScore);
             }
-            else
+            else if (GameManager.lastScore != 0)
                 CreateScoreIndicator(true, currentScore);
         }
 
