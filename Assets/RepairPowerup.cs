@@ -14,6 +14,20 @@ public class RepairPowerup : Powerup
         powerupType = PowerupTypes.Repair;
     }
 
+    public void UpdateButton()
+    {
+        if (BlockManager.instance.GetStackSize() == 0 || BlockManager.instance.currentBlock != null)
+        {
+            Debug.Log("No blocks to repair or block is currently being placed");
+            GetComponent<Button>().interactable = false;
+        }
+        else
+        {
+            GetComponent<Button>().interactable = true;
+        }
+    }
+
+    
     protected override void ActivatePowerup()
     {
         //active = true;

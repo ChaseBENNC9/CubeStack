@@ -11,7 +11,14 @@ public class BlockManager : MonoBehaviour
     public static BlockManager instance;
     public int stackSize = 0;
      public List<Block> blockStack;
+     /// <summary>
+     /// The ghost block is the block that is being moved side to side before being placed
+     /// </summary>
     [HideInInspector] public GameObject ghostBlock;
+    /// <summary>
+    /// The current block is the block that has been added to the tower but not yet confirmed a strength
+    /// </summary>
+    [HideInInspector] public GameObject currentBlock;
     private void Awake()
     {
         instance = this;

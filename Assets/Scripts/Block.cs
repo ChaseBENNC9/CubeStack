@@ -37,6 +37,13 @@ public class Block : MonoBehaviour
             {
                 GetComponent<Rigidbody2D>().gravityScale = 1;
                 BlockManager.instance.ghostBlock = null;
+                if (BlockManager.instance.currentBlock != null)
+                {
+                    Debug.LogError("ERROR: Cannot have two blocks ready at the same time");
+                    Destroy(BlockManager.instance.currentBlock);
+                    BlockManager.instance.currentBlock = null;
+                }   
+                BlockManager.instance.currentBlock = gameObject;
             }
             else if (blockState == BlockState.Moving)
             {
