@@ -16,6 +16,7 @@ public abstract class Powerup : MonoBehaviour
 
 
 
+    public abstract void UpdateButton();
     protected abstract void ActivatePowerup();
 
     public void PowerupPressed()

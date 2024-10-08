@@ -14,7 +14,7 @@ public class RepairPowerup : Powerup
         powerupType = PowerupTypes.Repair;
     }
 
-    public void UpdateButton()
+    public override void UpdateButton()
     {
         if (BlockManager.instance.GetStackSize() == 0 || BlockManager.instance.currentBlock != null)
         {
