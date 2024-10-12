@@ -39,7 +39,9 @@ public class RepairPowerup : Powerup
                 GameObject g = Instantiate(repairButton);
                 repairButtons.Add(g);
                 g.name = "RepairButton";
-                g.transform.SetParent(block.gameObject.transform.Find("Canvas"));
+                g.transform.SetParent(block.gameObject.transform.Find("Canvas").transform.Find("ButtonCanvas"));
+                block.gameObject.transform.Find("Canvas").transform.Find("ButtonCanvas").GetComponent<Canvas>().enabled = true;
+
                 g.gameObject.GetComponent<RectTransform>().localPosition = new Vector3(0, 0, 0);
                 g.gameObject.GetComponent<RectTransform>().localScale = new Vector3(1, 1, 1);
                 g.GetComponent<Button>().onClick.AddListener(() => RepairThisBlock(block));
@@ -81,8 +83,11 @@ public class RepairPowerup : Powerup
     {
         foreach (GameObject g in repairButtons)
         {
+            g.transform.parent.GetComponent<Canvas>().enabled = false;
             Destroy(g);
         }
         repairButtons.Clear();
+
+
     }
 }
