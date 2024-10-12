@@ -14,20 +14,15 @@ public class RepairPowerup : Powerup
         powerupType = PowerupTypes.Repair;
     }
 
-    public override void UpdateButton()
+
+
+    protected override bool PowerupRequirements()
     {
-        if (BlockManager.instance.GetStackSize() == 0 || BlockManager.instance.currentBlock != null)
-        {
-            Debug.Log("No blocks to repair or block is currently being placed");
-            GetComponent<Button>().interactable = false;
-        }
-        else
-        {
-            GetComponent<Button>().interactable = true;
-        }
+        Debug.Log("Stack Size:  " + BlockManager.instance.GetStackSize());
+        return BlockManager.instance.GetStackSize() > 0 && BlockManager.instance.currentBlock == null;
     }
 
-    
+
     protected override void ActivatePowerup()
     {
         //active = true;

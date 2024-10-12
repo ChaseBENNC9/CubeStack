@@ -10,18 +10,31 @@ public abstract class Powerup : MonoBehaviour
     public float cooldown;
     public Image foreGroundIcon;
     public Image backgroundIcon;
-    public bool usable = true;
-    public bool active = false;
+    public Image bannedOverlay;
+    public bool inUse = false;
     public PowerupTypes powerupType;
 
 
 
-    public abstract void UpdateButton();
+    public virtual void UpdateButton()
+    {
+        if(PowerupRequirements())
+        {
+            GetComponent<Button>().interactable = true;
+            bannedOverlay.gameObject.SetActive(false);
+        }
+        else
+        {
+            GetComponent<Button>().interactable = false;
+            bannedOverlay.gameObject.SetActive(true);
+        }
+    }
     protected abstract void ActivatePowerup();
+    protected abstract bool PowerupRequirements();
 
     public void PowerupPressed()
     {
-        if (usable)
+        if (!inUse)
         {
             ActivatePowerup();
         }
@@ -30,7 +43,7 @@ public abstract class Powerup : MonoBehaviour
     protected void BeginCooldown()
     {
         foreGroundIcon.fillAmount = 0;
-        usable = false;
+        inUse = true;
         StartCoroutine(CooldownAnimation());
     }
 
@@ -46,7 +59,7 @@ public abstract class Powerup : MonoBehaviour
         }
 
         foreGroundIcon.fillAmount = 1;
-        usable = true;
+        inUse = false;
     }
 
 
