@@ -9,7 +9,6 @@ public class PowerupManager : MonoBehaviour
    [SerializeField] private List<Powerup> powerups;
     void Start()
     {
-        powerups = GameObject.FindObjectsOfType<Powerup>().ToList<Powerup>();
     }
 
     // Update is called once per frame
