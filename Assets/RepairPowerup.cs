@@ -19,7 +19,7 @@ public class RepairPowerup : Powerup
     protected override bool PowerupRequirements()
     {
         Debug.Log("Stack Size:  " + BlockManager.instance.GetStackSize());
-        return BlockManager.instance.GetStackSize() > 0 && BlockManager.instance.currentBlock == null;
+        return BlockManager.instance.GetStackSize() > 0 && InputManager.targetBlock.BlockState == BlockState.Moving;
     }
 
 
@@ -31,9 +31,9 @@ public class RepairPowerup : Powerup
             Debug.Log("No blocks to repair");
             return;
         }
+            Destroy(InputManager.targetBlock.gameObject);
         foreach (Block block in BlockManager.instance.blockStack)
         {
-            Destroy(BlockManager.instance.ghostBlock);
             if (block.BlockState == BlockState.Weakened)
             {
                 GameObject g = Instantiate(repairButton);
@@ -46,7 +46,7 @@ public class RepairPowerup : Powerup
                 break;
             }
         }
-        PlayManager.instance.activePowerup = PowerupTypes.Repair;
+        PlayManager.instance.activePowerup = powerupType;
         //Functionality to repair the block
 
         

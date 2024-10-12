@@ -58,7 +58,7 @@ public class ScoreManager : MonoBehaviour
     }
     private void CreateScoreIndicator(bool isPrevious, int score)
     {
-
+        return;
 
 
         GameObject scoreIndicator = scoreIndicatorPrefab;

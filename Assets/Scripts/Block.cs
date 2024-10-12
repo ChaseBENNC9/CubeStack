@@ -10,7 +10,7 @@ using TMPro;
 public class Block : MonoBehaviour
 {
     // Start is called before the first frame update
-    private SpriteRenderer spriteRenderer, backgroundSprite;
+    public SpriteRenderer spriteRenderer, backgroundSprite;
     public Image progressBar;
     public Color normalColor;
     bool ready = false;
@@ -33,26 +33,27 @@ public class Block : MonoBehaviour
         set
         {
             blockState = value;
-            if (blockState == BlockState.Ready)
-            {
-                GetComponent<Rigidbody2D>().gravityScale = 1;
-                BlockManager.instance.ghostBlock = null;
-                if (BlockManager.instance.currentBlock != null)
-                {
-                    Debug.LogError("ERROR: Cannot have two blocks ready at the same time");
-                    Destroy(BlockManager.instance.currentBlock);
-                    BlockManager.instance.currentBlock = null;
-                }   
-                BlockManager.instance.currentBlock = gameObject;
-            }
-            else if (blockState == BlockState.Moving)
-            {
-                GetComponent<Rigidbody2D>().gravityScale = 0;
-            }
-            else if (blockState == BlockState.Weakened || blockState == BlockState.Placed)
-            {
-               BlockManager.instance.currentBlock = null;
-            }
+            // if (blockState == BlockState.Ready)
+            // {
+            //     GetComponent<Rigidbody2D>().gravityScale = 1;
+            //     if (BlockManager.instance.currentBlock != null)
+            //     {
+            //         Debug.LogError("ERROR: Cannot have two blocks ready at the same time");
+            //         BlockManager.instance.currentBlock = null;
+            //     }   
+            //     BlockManager.instance.currentBlock = gameObject;
+            // }
+            // else if (blockState == BlockState.Moving)
+            // {
+            //     GetComponent<Rigidbody2D>().gravityScale = 0;
+            
+            //     BlockManager.instance.currentBlock = null;
+
+            // }
+            // else if (blockState == BlockState.Weakened || blockState == BlockState.Placed)
+            // {
+            //    BlockManager.instance.currentBlock = null;
+            // }
 
 
         }
@@ -70,9 +71,10 @@ public class Block : MonoBehaviour
     private void Start()
     {
         BlockState = BlockState.Moving;
+        GetComponent<Rigidbody2D>().gravityScale = 0;
         StartCoroutine(MoveBlock());
-        spriteRenderer = transform.GetChild(0).GetComponent<SpriteRenderer>();
-        backgroundSprite = transform.GetChild(1).GetComponent<SpriteRenderer>();
+        // spriteRenderer = transform.GetChild(0).GetComponent<SpriteRenderer>();
+        // backgroundSprite = transform.GetChild(1).GetComponent<SpriteRenderer>();
         popup = transform.Find("Canvas").transform.Find("PopUp").GetComponent<PopUp>();
         popup.GetComponent<Animator>().enabled = false;
         ProgressBar(0f, false);
@@ -84,16 +86,14 @@ public class Block : MonoBehaviour
     /// Called when the player taps the screen. This will set the Block to ready.
     /// </summary>
     /// <param name="context"></param>
-    public void Tap(InputAction.CallbackContext context)
+    public void Tap()
     {
-        if (!PlayManager.instance.onUI && PlayManager.instance.activePowerup == PowerupTypes.None)
+        if ( PlayManager.instance.activePowerup == PowerupTypes.None && InputManager.targetBlock == this)
         {
-
-
 
             if (BlockState == BlockState.Moving)
             {
-                if (context.performed)
+                // if (context.performed)
                 {
                     SetColor(readyColor, 0f);
                     SetColor(readyColor, 0.1f, true);
@@ -101,35 +101,47 @@ public class Block : MonoBehaviour
                     Debug.Log("Tapped");
                     ready = true;
                     BlockState = BlockState.Ready;
+                    GetComponent<Rigidbody2D>().gravityScale = 1;
+  
+
                 }
             }
-            if (context.canceled)
-            {
-                Debug.Log("finger up");
-            }
+            // if (context.canceled)
+            // {
+            //     Debug.Log("finger up");
+            // }
+
+        }
+        else
+        {
+            Debug.Log("TAP " + PlayManager.instance.activePowerup + " " + InputManager.targetBlock);
 
         }
 
     }
 
+
+
+
+    
     /// <summary>
     /// Called when the player holds the screen. This will start the coroutine to manage the time to hold the Block.
     /// </summary>
-    public void Hold(InputAction.CallbackContext context)
+    public void Hold(bool down)
     {
-        if (!PlayManager.instance.onUI && PlayManager.instance.activePowerup == PowerupTypes.None)
+        if (PlayManager.instance.activePowerup == PowerupTypes.None && InputManager.targetBlock == this)
         {
 
             if (!ready || BlockState != BlockState.Ready)
                 return;
-            if (context.started)
+            if (down)
             {
                 holdCoroutine = StartCoroutine(HoldForSeconds());
                 isDown = true;
                 SetColor(readyColor, 0f);
                 SetColor(readyColor, 0.1f, true);
             }
-            else if (context.canceled)
+            else if (!down)
             {
                 if (holdCoroutine != null)
                 {
@@ -142,6 +154,10 @@ public class Block : MonoBehaviour
 
                 isDown = false;
             }
+        }
+        else
+        {
+            Debug.Log("HOLD " + PlayManager.instance.activePowerup + " " + InputManager.targetBlock);
         }
 
     }
@@ -214,8 +230,10 @@ public class Block : MonoBehaviour
     /// <summary>
     /// Calls the PlaceBlock function for a perfectly placed block.
     /// </summary>
-    private void PlacePerfectBlock()
+    public void PlacePerfectBlock()
     {
+        ProgressBar(1);
+        blockStrength = 100;
         PlaceBlock(2, BlockState.Placed, 1f);
     }
 

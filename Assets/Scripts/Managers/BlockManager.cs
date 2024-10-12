@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Net.Mail;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class BlockManager : MonoBehaviour
 {
@@ -14,11 +15,10 @@ public class BlockManager : MonoBehaviour
      /// <summary>
      /// The ghost block is the block that is being moved side to side before being placed
      /// </summary>
-    [HideInInspector] public GameObject ghostBlock;
     /// <summary>
     /// The current block is the block that has been added to the tower but not yet confirmed a strength
     /// </summary>
-    [HideInInspector] public GameObject currentBlock;
+
     private void Awake()
     {
         instance = this;
@@ -29,22 +29,29 @@ public class BlockManager : MonoBehaviour
     }
 
 
+
+
+
+
+
+    
+
 /// <summary>
 /// Creates a new block and sets it as the ghost block
 /// </summary>
     public void CreateBlock()
     {
         {
-            if (ghostBlock != null)
-            {
-                Destroy(ghostBlock);
-                Debug.Log("Destroying Ghost Block");
-            }
+            // if (ghostBlock != null)
+            // {
+            //     Destroy(ghostBlock);
+            //     Debug.Log("Destroying Ghost Block");
+            // }
             
             GameObject block = Instantiate(blockPrefab, transform);
             block.transform.position = blockSpawnPoint.position;
             block.transform.parent = gameObject.transform.parent;
-            ghostBlock = block;
+            InputManager.targetBlock = block.GetComponent<Block>();
           
         }
     }
