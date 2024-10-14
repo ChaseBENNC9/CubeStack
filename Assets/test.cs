@@ -1,20 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Net.Mail;
 using UnityEngine;
 
-public class InputManager : MonoBehaviour
+public class test : MonoBehaviour
 {
 
     public static Block targetBlock;
-    [SerializeField] private Block test;
     private float clickStartTime;
     private float clickDurationThreshold = 0.2f; // Adjust this value for the desired tap speed
 
 
     private void Update()
     {
-        test = targetBlock;
     }
 
     /// <summary>
@@ -49,8 +46,7 @@ public class InputManager : MonoBehaviour
     /// </summary>
     private void TapScreen()
     {
-        if (targetBlock == null) return;
-        targetBlock.Tap();
+        Debug.Log("Tapped");
 
     }
 
@@ -63,13 +59,12 @@ public class InputManager : MonoBehaviour
     /// <param name="down">Whether the hold is currently down or not</param>
     private void HoldScreen(bool down)
     {
-        if (targetBlock == null) return;
-
-        targetBlock.Hold(down);
+        Debug.Log("Held");
     }
 
 
 }
+
 
 
 
