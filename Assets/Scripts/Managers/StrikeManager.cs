@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SocialPlatforms.Impl;
 
 public class StrikeManager : MonoBehaviour
 {
@@ -29,11 +30,12 @@ public class StrikeManager : MonoBehaviour
             strikeCount = value;
             if (strikeCount >= MAX_STRIKES)
             {
-                GameManager.lastScore = BlockManager.instance.GetStackSize();
+                GameManager.lastScore = ScoreManager.instance.CurrentScore;
                 Debug.Log("Last Score: " + GameManager.lastScore);
-                if (BlockManager.instance.GetStackSize() > GameManager.bestScore)
+                if (ScoreManager.instance.CurrentScore > GameManager.bestScore)
                 {
-                    GameManager.UpdateBestScore(BlockManager.instance.GetStackSize());
+                    GameManager.UpdateBestScore(ScoreManager.instance.CurrentScore);
+                    Debug.Log("Best Score: " + GameManager.bestScore);
                 }
   
                 GameManager.SaveGame();

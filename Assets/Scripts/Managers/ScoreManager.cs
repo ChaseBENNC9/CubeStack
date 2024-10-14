@@ -7,6 +7,10 @@ public class ScoreManager : MonoBehaviour
 {
     public static ScoreManager instance;
     private int currentScore;
+    public int CurrentScore
+    {
+        get { return currentScore; }
+    }
 
     [SerializeField] private TMPro.TextMeshProUGUI scoreText;
     [SerializeField] private GameObject scoreIndicatorPrefab;
