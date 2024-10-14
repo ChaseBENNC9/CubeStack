@@ -19,7 +19,18 @@ public class RepairPowerup : Powerup
     protected override bool PowerupRequirements()
     {
         Debug.Log("Stack Size:  " + BlockManager.instance.GetStackSize());
-        return BlockManager.instance.GetStackSize() > 0 && InputManager.targetBlock.BlockState == BlockState.Moving;
+        return BlockManager.instance.GetStackSize() > 0 && CheckForWeakenedBlocks() && InputManager.targetBlock.BlockState == BlockState.Moving;
+    }
+    private bool CheckForWeakenedBlocks()
+    {
+        foreach (Block block in BlockManager.instance.blockStack)
+        {
+            if (block.BlockState == BlockState.Weakened)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
 
