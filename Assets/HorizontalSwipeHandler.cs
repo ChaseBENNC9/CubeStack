@@ -36,11 +36,11 @@ public class HorizontalSwipeHandler : MonoBehaviour, IBeginDragHandler, IEndDrag
         {
             if (horizontalMove > 0)
             {
-                SwipeRight();
+                SwipeLeft();
             }
             else
             {
-                SwipeLeft();
+                SwipeRight();
             }
         }
     }
