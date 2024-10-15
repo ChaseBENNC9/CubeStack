@@ -1,5 +1,6 @@
 using UnityEngine;
-using System.Collections.Generic;	
+using System.Collections.Generic;
+using UnityEngine.UI;
 
 public class SpinningWheel : MonoBehaviour
 {
@@ -8,7 +9,7 @@ public class SpinningWheel : MonoBehaviour
     public float decelerationRate = 50f; // Rate at which the wheel slows down
     private float currentSpeed;
     public List<string> sections = new List<string> { "Rewind", "All", "Repair", "Block", "Rewind", "Nothing", "Repair", "Block" };
-
+    public Button spinButton;
 
     private void Start()
     {
@@ -32,6 +33,7 @@ public class SpinningWheel : MonoBehaviour
             {
                 currentSpeed = 0;
                 CheckLandedSection();
+                spinButton.interactable = true;
             }
         }
 
@@ -39,6 +41,7 @@ public class SpinningWheel : MonoBehaviour
 
     public void StartSpinning()
     {
+        spinButton.interactable = false;
         currentSpeed = Random.Range(MIN_SPEED, MAX_SPEED);
 
     }
