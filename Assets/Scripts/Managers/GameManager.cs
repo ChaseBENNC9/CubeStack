@@ -12,7 +12,7 @@ public static class GameManager
 
     public static SaveData saveData;
 
-    public static void GameOver()
+    public static void MainMenu()
     {
         Debug.Log("Game Over");
 

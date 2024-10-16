@@ -82,6 +82,9 @@ public class Block : MonoBehaviour
         ProgressBar(0f, false);
         SetColor(normalColor, 0f);
         SetColor(normalColor, 0.1f, true);
+         progressBar.gameObject.SetActive(false);
+         progressBar.transform.GetChild(0).GetComponent<Image>().fillAmount = 0;
+
     }
 
     /// <summary>
@@ -134,6 +137,7 @@ public class Block : MonoBehaviour
         if (PlayManager.instance.activePowerup == PowerupTypes.None && InputManager.targetBlock == this)
         {
 
+            progressBar.gameObject.SetActive(true);
             if (!ready || BlockState != BlockState.Ready)
                 return;
             if (down)
@@ -311,6 +315,7 @@ public class Block : MonoBehaviour
         if (progressBar.gameObject.activeSelf)
         {
             progressBar.fillAmount = value;
+            progressBar.transform.GetChild(0).GetComponent<Image>().fillAmount = 1;
             blockStrength = (int)(value * 100);
             strengthtext.text = value.ToString("P0");
             if (value == 0f)

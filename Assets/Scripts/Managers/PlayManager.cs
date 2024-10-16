@@ -10,6 +10,7 @@ public class PlayManager : MonoBehaviour
     public GameObject placeholderBlock;
     public GameObject menuCanvas;
     public GameObject gameCanvas;
+    public GameObject gameOverCanvas;
     public TextMeshProUGUI bestScoreText;
     public static PlayManager instance;
     public  bool onUI = false;
@@ -25,6 +26,7 @@ public class PlayManager : MonoBehaviour
         placeholderBlock.SetActive(false);
         menuCanvas.SetActive(false);
         gameCanvas.SetActive(true);
+        gameOverCanvas.SetActive(false);
         GameManager.SetGameState(GameStates.In_Game);
         BlockManager.instance.CreateBlock();
     }
@@ -36,8 +38,31 @@ public class PlayManager : MonoBehaviour
         placeholderBlock.SetActive(true);
         menuCanvas.SetActive(true);
         gameCanvas.SetActive(false);
+        gameOverCanvas.SetActive(false);
         activePowerup = PowerupTypes.None;
 
+    }
+    public void EndGame()
+    {
+        gameOverCanvas.SetActive(true);
+        gameOverCanvas.transform.Find("score").GetComponent<TextMeshProUGUI>().text = ScoreManager.instance.CurrentScore.ToString();
+        menuCanvas.SetActive(false);
+        gameCanvas.SetActive(false);
+        placeholderBlock.SetActive(false);
+        foreach (Block child in BlockManager.instance.blockStack)
+        {
+            Destroy(child.gameObject);
+        }
+        BlockManager.instance.blockStack.Clear();
+        foreach (GameObject child in GameObject.FindGameObjectsWithTag("Block"))
+        {
+            Destroy(child);
+        }
+
+    }
+    public void ContinueButton()
+    {
+        GameManager.MainMenu();
     }
 
     public void UpdateUI()

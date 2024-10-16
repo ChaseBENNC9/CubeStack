@@ -39,7 +39,7 @@ public class StrikeManager : MonoBehaviour
                 }
   
                 GameManager.SaveGame();
-                GameManager.GameOver();
+                PlayManager.instance.EndGame();
             }
         }
     }
