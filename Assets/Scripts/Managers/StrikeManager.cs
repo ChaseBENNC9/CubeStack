@@ -37,6 +37,7 @@ public class StrikeManager : MonoBehaviour
                     GameManager.UpdateBestScore(ScoreManager.instance.CurrentScore);
                     Debug.Log("Best Score: " + GameManager.bestScore);
                 }
+                
   
                 GameManager.SaveGame();
                 PlayManager.instance.EndGame();

@@ -8,6 +8,7 @@ public static class GameManager
 {
     public static int bestScore = 0;
     public static int lastScore = 0;
+    public static int powerupRepair = 7, powerupRewind = 0, powerupPerfect = 2;
     private static GameStates gameState = GameStates.Pre_Game;
 
     public static SaveData saveData;
@@ -31,9 +32,10 @@ public static class GameManager
             bestScore = score;
         }
     }
+
     public static void SaveGame()
     {
-        SaveData data = new SaveData(bestScore, lastScore);
+        SaveData data = new SaveData(bestScore, lastScore, powerupRepair, powerupRewind, powerupPerfect);
         saveData = data;
         Debug.Log("Saving Data: " + saveData.bestScore + " " + saveData.lastScore);
         string json = JsonUtility.ToJson(data);
@@ -52,6 +54,9 @@ public static class GameManager
             {
                 bestScore = data.bestScore;
                 lastScore = data.lastScore;
+                powerupRepair = data.powerupRepair;
+                powerupRewind = 0; //data.powerupRewind;
+                powerupPerfect = data.powerupPerfect;
                 Debug.Log("Save Data Loaded " + bestScore + " " + lastScore);
             }
             else
@@ -77,6 +82,9 @@ public static class GameManager
 
         lastScore = data.lastScore;
         bestScore = data.bestScore;
+        powerupRepair = data.powerupRepair;
+        powerupRewind = data.powerupRewind;
+        powerupPerfect = data.powerupPerfect;
 
         Debug.Log("Best Score: " + bestScore + " Last Score: " + lastScore);
 

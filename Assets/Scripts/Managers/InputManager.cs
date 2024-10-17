@@ -7,15 +7,11 @@ public class InputManager : MonoBehaviour
 {
 
     public static Block targetBlock;
-    [SerializeField] private Block test;
     private float clickStartTime;
     private float clickDurationThreshold = 0.2f; // Adjust this value for the desired tap speed
 
 
-    private void Update()
-    {
-        test = targetBlock;
-    }
+
 
     /// <summary>
     /// Called when the player initially touches the screen
