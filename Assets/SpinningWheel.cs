@@ -1,5 +1,5 @@
-using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class SpinningWheel : MonoBehaviour
@@ -8,13 +8,26 @@ public class SpinningWheel : MonoBehaviour
     private const float MAX_SPEED = 550f;
     public float decelerationRate = 50f; // Rate at which the wheel slows down
     private float currentSpeed;
-    public List<string> sections = new List<string> { "Rewind", "All", "Repair", "Block", "Rewind", "Nothing", "Repair", "Block" };
+    public List<string> sections = new List<string>
+    {
+        "Rewind",
+        "All",
+        "Repair",
+        "Block",
+        "Rewind",
+        "Nothing",
+        "Repair",
+        "Block"
+    };
     public Button spinButton;
+    public Button continueButton;
 
     private void Start()
     {
         // Set the current speed to the initial speed
         currentSpeed = 0;
+        spinButton.interactable = true;
+        continueButton.interactable = false;
     }
 
     private void Update()
@@ -33,32 +46,57 @@ public class SpinningWheel : MonoBehaviour
             {
                 currentSpeed = 0;
                 CheckLandedSection();
-                spinButton.interactable = true;
+                continueButton.interactable = true;
             }
         }
-
     }
 
     public void StartSpinning()
     {
         spinButton.interactable = false;
         currentSpeed = Random.Range(MIN_SPEED, MAX_SPEED);
-
     }
 
- private void CheckLandedSection()
-{
-    // Get the final angle of the wheel
-    float finalAngle = transform.eulerAngles.z;
+    private void CheckLandedSection()
+    {
+        float finalAngle = transform.eulerAngles.z;
+        float adjustedAngle = (finalAngle + 22.5f) % 360;
+        int sectionIndex = Mathf.FloorToInt(adjustedAngle / 45) % sections.Count;
 
-    // Adjust by subtracting 22.5 degrees to align with the center of each section
-    float adjustedAngle = (finalAngle + 22.5f) % 360;
+        Debug.Log("Landed on: " + sections[sectionIndex]);
+        DoReward(sections[sectionIndex]);
+    }
 
-    // Calculate which section the wheel is pointing to
-    int sectionIndex = Mathf.FloorToInt(adjustedAngle / 45) % sections.Count;
+    private void DoReward(string section)
+    {
+        Debug.Log("Landed on: " + section);
 
-    // Display the result (can be replaced with other actions)
-    Debug.Log("Landed on: " + sections[sectionIndex]);
-}
+        switch (section)
+        {
+            case "Rewind":
+                //GameManager.powerupRewind++;
+                continueButton.interactable = false;
+                spinButton.interactable = true;
+                break;
+            case "All":
+                GameManager.powerupPerfect++;
+                GameManager.powerupRepair++;
+                //GameManager.powerupRewind ++;
+                break;
+            case "Repair":
+                GameManager.powerupRepair++;
+                break;
+            case "Block":
+                GameManager.powerupPerfect++;
+                break;
+            case "Nothing":
+                continueButton.interactable = false;
+                spinButton.interactable = true;
+                Debug.Log("Better luck next time!");
+                break;
+        }
 
+        GameManager.SaveGame();
+        Debug.Log("Rewards: " + GameManager.powerupPerfect + " " + GameManager.powerupRepair);
+    }
 }
