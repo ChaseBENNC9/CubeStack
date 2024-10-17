@@ -45,7 +45,7 @@ public abstract class Powerup : MonoBehaviour
     protected abstract void ActivatePowerup();
     protected abstract bool PowerupRequirements();
 
-    public void PowerupPressed()
+    public virtual void PowerupPressed()
     {
         if (!inUse && count > 0 )
         {

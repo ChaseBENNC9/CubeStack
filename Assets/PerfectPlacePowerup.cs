@@ -11,6 +11,8 @@ public class PerfectPlacePowerup : Powerup
     private void Start()
     {
         powerupType = PowerupTypes.Perfect;
+        count = GameManager.powerupPerfect;
+
     }
 
 
@@ -20,7 +22,11 @@ public class PerfectPlacePowerup : Powerup
         if(InputManager.targetBlock == null) return false;
         return InputManager.targetBlock.BlockState == BlockState.Ready;
     }
-
+    public override void PowerupPressed()
+    {
+        base.PowerupPressed();
+        GameManager.powerupPerfect = count;
+    }
 
     protected override void ActivatePowerup()
     {

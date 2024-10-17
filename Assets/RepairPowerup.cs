@@ -12,6 +12,8 @@ public class RepairPowerup : Powerup
     private void Start()
     {
         powerupType = PowerupTypes.Repair;
+
+        count = GameManager.powerupRepair;
     }
 
 
@@ -33,6 +35,11 @@ public class RepairPowerup : Powerup
         return false;
     }
 
+    public override void PowerupPressed()
+    {
+        base.PowerupPressed();
+        GameManager.powerupRepair = count;
+    }
 
     protected override void ActivatePowerup()
     {
