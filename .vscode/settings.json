@@ -51,5 +51,5 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "CubeStack.sln"
+    "dotnet.defaultSolution": "SuperCubeStacker.sln"
 }
