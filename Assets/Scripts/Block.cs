@@ -29,6 +29,9 @@ public class Block : MonoBehaviour
     [SerializeField] private BlockState blockState;
     [SerializeField] private TextMeshProUGUI strengthtext;
     private PopUp popup;
+    [SerializeField] private AudioClip breakSound;
+    [SerializeField] private AudioClip placeSound;
+    [SerializeField] private AudioClip perfectSound;
 
     public BlockState BlockState
     {
@@ -231,6 +234,7 @@ public class Block : MonoBehaviour
     private void PlaceWeakenedBlock()
     {
         PlaceBlock(1, BlockState.Weakened, blockStrength / 100f);
+        SoundManager.instance.PlaySfx(placeSound);
 
     }
     /// <summary>
@@ -241,6 +245,7 @@ public class Block : MonoBehaviour
         ProgressBar(1);
         blockStrength = 100;
         PlaceBlock(2, BlockState.Placed, 1f);
+        SoundManager.instance.PlaySfx(perfectSound);
     }
 
 
@@ -301,6 +306,7 @@ public class Block : MonoBehaviour
             BlockManager.instance.SetSpawnLevel();
             BlockManager.instance.CreateBlock();
             StrikeManager.instance.AddStrike();
+            SoundManager.instance.PlaySfx(breakSound);
         }
         Destroy(gameObject, 0.25f);
     }

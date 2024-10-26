@@ -236,6 +236,9 @@ MonoBehaviour:
   finished: 0
   blockState: 0
   strengthtext: {fileID: 6879647143327022649}
+  breakSound: {fileID: 8300000, guid: 020876cc53e3d3e4fbac975cbda4ab7b, type: 3}
+  placeSound: {fileID: 8300000, guid: a9b684e9d2569564f9c7e79c804d4f99, type: 3}
+  perfectSound: {fileID: 8300000, guid: 657a09c52a7e3884396b01ddf828b085, type: 3}
 --- !u!61 &24901097665504941
 BoxCollider2D:
   m_ObjectHideFlags: 0

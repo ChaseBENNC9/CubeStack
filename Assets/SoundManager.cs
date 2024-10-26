@@ -9,7 +9,7 @@ public class SoundManager : MonoBehaviour
     [SerializeField] private AudioSource musicSource;
     [SerializeField] private AudioSource sfxSource;
 
-    private static SoundManager instance;
+    public static SoundManager instance;
 
 
 
@@ -39,6 +39,7 @@ public class SoundManager : MonoBehaviour
         }
     }
 
+
     public void ToggleMusic()
     {
         musicSource.mute = !musicSource.mute;
@@ -47,6 +48,10 @@ public class SoundManager : MonoBehaviour
     public void ToggleSfx()
     {
         sfxSource.mute = !sfxSource.mute;
+    }
+    public void PlaySfx(AudioClip clip)
+    {
+        sfxSource.PlayOneShot(clip);
     }
 
     void Awake()
