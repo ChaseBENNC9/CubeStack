@@ -8,7 +8,7 @@ public static class GameManager
 {
     public static int bestScore = 0;
     public static int lastScore = 0;
-    public static int powerupRepair = 7, powerupRewind = 0, powerupPerfect = 2;
+    public static int powerupRepair = 2, powerupRewind = 2, powerupPerfect = 2;
     private static GameStates gameState = GameStates.Pre_Game;
 
     public static SaveData saveData;
