@@ -14,6 +14,15 @@ public class PowerupManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(GameManager.GetGameState() == GameStates.In_Game)
+        {
+            UpdatePowerups();
+        }
+
+    }
+
+    private void UpdatePowerups()
+    {
         foreach (Powerup powerup in powerups)
         {
             powerup.UpdateButton();

@@ -24,6 +24,10 @@ public static class GameManager
     {
         gameState = state;
     }
+    public static GameStates GetGameState()
+    {
+        return gameState;
+    }
 
     public static void UpdateBestScore(int score)
     {
