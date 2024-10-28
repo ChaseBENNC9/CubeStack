@@ -7,6 +7,12 @@ public class CameraController : MonoBehaviour
     public float smoothSpeed = 0.125f; // How smoothly the camera moves
 
     private Vector3 initialPosition;
+    public static CameraController instance;
+
+    private void Awake()
+    {
+        instance = this;
+    }
 
     void Start()
     {

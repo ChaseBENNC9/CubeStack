@@ -12,12 +12,7 @@ public class BlockManager : MonoBehaviour
     public static BlockManager instance;
     public int stackSize = 0;
      public List<Block> blockStack;
-     /// <summary>
-     /// The ghost block is the block that is being moved side to side before being placed
-     /// </summary>
-    /// <summary>
-    /// The current block is the block that has been added to the tower but not yet confirmed a strength
-    /// </summary>
+
 
     private void Awake()
     {
@@ -37,16 +32,11 @@ public class BlockManager : MonoBehaviour
     
 
 /// <summary>
-/// Creates a new block and sets it as the ghost block
+/// Creates a new block and sets it as the target block
 /// </summary>
     public void CreateBlock()
     {
         {
-            // if (ghostBlock != null)
-            // {
-            //     Destroy(ghostBlock);
-            //     Debug.Log("Destroying Ghost Block");
-            // }
             
             GameObject block = Instantiate(blockPrefab, transform);
             block.transform.position = blockSpawnPoint.position;

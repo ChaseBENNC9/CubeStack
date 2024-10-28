@@ -235,7 +235,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1800932944812318303}
   - component: {fileID: 4198107196717889969}
-  - component: {fileID: 6823091044934796184}
   - component: {fileID: 3951718249665369518}
   m_Layer: 5
   m_Name: RewindPowerup
@@ -311,8 +310,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6823091044934796184}
-        m_TargetAssemblyTypeName: Powerup, Assembly-CSharp
+      - m_Target: {fileID: 3951718249665369518}
+        m_TargetAssemblyTypeName: RewindPowerup, Assembly-CSharp
         m_MethodName: PowerupPressed
         m_Mode: 1
         m_Arguments:
@@ -323,26 +322,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &6823091044934796184
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5842710288004187883}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 77ce6381b44ade74d8dad5fcbd1dbc86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cooldown: 10
-  foreGroundIcon: {fileID: 8980469079560325943}
-  backgroundIcon: {fileID: 4295076609622320572}
-  bannedOverlay: {fileID: 298840110481873274}
-  counterIcon: {fileID: 7699290273628562302}
-  count: 0
-  inUse: 0
-  powerupType: 0
 --- !u!114 &3951718249665369518
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -355,6 +334,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed82268b0b03a6b408654e22490c7e3b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cooldown: 15
+  foreGroundIcon: {fileID: 8980469079560325943}
+  backgroundIcon: {fileID: 4295076609622320572}
+  bannedOverlay: {fileID: 298840110481873274}
+  counterIcon: {fileID: 7699290273628562302}
+  count: 0
+  inUse: 0
+  powerupType: 0
 --- !u!1001 &745209214500991615
 PrefabInstance:
   m_ObjectHideFlags: 0
