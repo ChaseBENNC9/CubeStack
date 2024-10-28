@@ -15,7 +15,7 @@ public class Block : MonoBehaviour
     public SpriteRenderer spriteRenderer, backgroundSprite;
     public Image progressBar;
     public Color normalColor;
-    bool ready = false;
+    public bool ready = false;
     public Color readyColor;
     public Color activeColor;
     public Color placedColor;
@@ -103,12 +103,10 @@ public class Block : MonoBehaviour
             {
                 // if (context.performed)
                 {
-                    SetColor(readyColor, 0f);
-                    SetColor(readyColor, 0.1f, true);
+                    ReadyBlock();
                     isDown = true;
                     Debug.Log("Tapped");
-                    ready = true;
-                    BlockState = BlockState.Ready;
+   
                     GetComponent<Rigidbody2D>().gravityScale = 1;
   
 
@@ -166,7 +164,7 @@ public class Block : MonoBehaviour
         }
         else
         {
-            Debug.Log("HOLD " + PlayManager.instance.activePowerup + " " + InputManager.targetBlock);
+            Debug.LogWarning("HOLD " + PlayManager.instance.activePowerup + " " + InputManager.targetBlock);
         }
 
     }
@@ -207,6 +205,17 @@ public class Block : MonoBehaviour
     }
 
 
+/// <summary>
+/// Sets the Block to ready. and sets all the colors and variables for the ready state.
+/// </summary>
+    public void ReadyBlock()
+    {
+        SetColor(readyColor, 0f);
+        SetColor(readyColor, 0.1f, true);
+        ready = true;
+        BlockState = BlockState.Ready;
+
+    }
 
     /// <summary>
     /// Places the Block in the stack and sets the color based on the score and the state of the Block.
@@ -240,11 +249,14 @@ public class Block : MonoBehaviour
     /// <summary>
     /// Calls the PlaceBlock function for a perfectly placed block.
     /// </summary>
-    public void PlacePerfectBlock()
+    public void PlacePerfectBlock(bool givePoints = true)
     {
         ProgressBar(1);
         blockStrength = 100;
-        PlaceBlock(2, BlockState.Placed, 1f);
+        if (givePoints)
+            PlaceBlock(2, BlockState.Placed, 1f);
+        else
+            PlaceBlock(0, BlockState.Placed, 1f);
         SoundManager.instance.PlaySfx(perfectSound);
     }
 

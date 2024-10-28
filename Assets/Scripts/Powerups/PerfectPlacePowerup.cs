@@ -31,7 +31,7 @@ public class PerfectPlacePowerup : Powerup
     protected override void ActivatePowerup()
     {
         Block b = InputManager.targetBlock;
-        b.PlacePerfectBlock();
+        b.PlacePerfectBlock(false);
         
         PlayManager.instance.activePowerup = powerupType;
         //Functionality to repair the block
