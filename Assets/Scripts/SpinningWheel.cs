@@ -74,14 +74,13 @@ public class SpinningWheel : MonoBehaviour
         switch (section)
         {
             case "Rewind":
-                //GameManager.powerupRewind++;
-                continueButton.interactable = false;
-                spinButton.interactable = true;
+                GameManager.powerupRewind++;
+
                 break;
             case "All":
                 GameManager.powerupPerfect++;
                 GameManager.powerupRepair++;
-                //GameManager.powerupRewind ++;
+                GameManager.powerupRewind ++;
                 break;
             case "Repair":
                 GameManager.powerupRepair++;
@@ -90,8 +89,7 @@ public class SpinningWheel : MonoBehaviour
                 GameManager.powerupPerfect++;
                 break;
             case "Nothing":
-                continueButton.interactable = false;
-                spinButton.interactable = true;
+
                 Debug.Log("Better luck next time!");
                 break;
         }
