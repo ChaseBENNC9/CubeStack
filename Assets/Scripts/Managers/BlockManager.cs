@@ -13,6 +13,8 @@ public class BlockManager : MonoBehaviour
     public int stackSize = 0;
      public List<Block> blockStack;
      public Block GhostBlock;
+     public float placementThreshold = 3f;
+     public float movementSpeed = 2f;
 
 
     private void Awake()
@@ -40,6 +42,7 @@ public class BlockManager : MonoBehaviour
             block.transform.parent = gameObject.transform.parent;
             InputManager.targetBlock = block.GetComponent<Block>();
             GhostBlock = block.GetComponent<Block>();
+            GhostBlock.holdTime = placementThreshold;
           
         }
     }
@@ -84,7 +87,7 @@ public float GetHighestBlock()
             stackSize--;
             if (blockStack.Count != 0)
             {
-                Camera.main.GetComponent<CameraController>().topCube = blockStack[blockStack.Count - 1].transform;
+                Camera.main.GetComponent<CameraController>().topCube = blockStack[0].transform;
             }
             else
             {
