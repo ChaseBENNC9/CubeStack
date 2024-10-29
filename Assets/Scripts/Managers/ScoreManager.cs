@@ -40,6 +40,7 @@ public class ScoreManager : MonoBehaviour
         {
             currentScore += score;
         }
+        IncreaseDifficulty();
 
 
         scoreText.text = currentScore.ToString();
@@ -52,6 +53,40 @@ public class ScoreManager : MonoBehaviour
 
         
 
+    }
+
+    private void IncreaseDifficulty()
+    {
+        if (currentScore >= 0 && currentScore < 5)
+        {
+            BlockManager.instance.placementThreshold = 3f;
+            BlockManager.instance.movementSpeed = 2f;
+        }
+        else if (currentScore >= 5 && currentScore < 10)
+        {
+            BlockManager.instance.placementThreshold = 2.75f;
+            BlockManager.instance.movementSpeed = 2.25f;
+        }
+        else if (currentScore >= 10 && currentScore < 15)
+        {
+            BlockManager.instance.placementThreshold = 2.5f;
+            BlockManager.instance.movementSpeed = 2.5f;
+        }
+        else if (currentScore >= 15 && currentScore < 20)
+        {
+            BlockManager.instance.placementThreshold = 2f;
+            BlockManager.instance.movementSpeed = 2.75f;
+        }
+        else if (currentScore >= 20 && currentScore < 25)
+        {
+            BlockManager.instance.placementThreshold = 1.75f;
+            BlockManager.instance.movementSpeed = 3f;
+        }
+        else if (currentScore > 25)
+        {
+            BlockManager.instance.placementThreshold = 1.5f;
+            BlockManager.instance.movementSpeed = 3.25f;
+        }
     }
   
 

@@ -39,7 +39,7 @@ public class StrikeManager : MonoBehaviour
                 }
 
                 Destroy(BlockManager.instance.GhostBlock.gameObject);
-                Invoke("GameOver", 2.5f);
+                Invoke("GameOver", .5f);
 
             }
         }
@@ -53,6 +53,10 @@ public class StrikeManager : MonoBehaviour
 
     public void AddStrike()
     {
+        if (strikeCount >= MAX_STRIKES)
+        {
+            return;
+        }
         StrikeCount++;
         GameObject strike = Instantiate(strikePrefab, strikes.transform);
     }

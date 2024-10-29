@@ -21,6 +21,7 @@ public class Block : MonoBehaviour
     public Color placedColor;
     public Color brokenColor;
     public float holdTime = 3f;
+    public float moveSpeed = 2f;
     private float breakThreshold = 0.25f;
     private Coroutine holdCoroutine;
     public bool isDown = false;
@@ -375,7 +376,7 @@ public class Block : MonoBehaviour
         BlockState = BlockState.Moving;
         while (BlockState == BlockState.Moving)
         {
-            transform.position = Vector2.MoveTowards(transform.position, target, 2f * Time.deltaTime);
+            transform.position = Vector2.MoveTowards(transform.position, target, moveSpeed * Time.deltaTime);
             if (transform.position.x >= 1.75)
             {
                 target = new Vector2(-1.75f, transform.position.y);
