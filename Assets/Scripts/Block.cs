@@ -51,7 +51,7 @@ public class Block : MonoBehaviour
             // else if (blockState == BlockState.Moving)
             // {
             //     GetComponent<Rigidbody2D>().gravityScale = 0;
-            
+
             //     BlockManager.instance.currentBlock = null;
 
             // }
@@ -85,8 +85,8 @@ public class Block : MonoBehaviour
         ProgressBar(0f, false);
         SetColor(normalColor, 0f);
         SetColor(normalColor, 0.1f, true);
-         progressBar.gameObject.SetActive(false);
-         progressBar.transform.GetChild(0).GetComponent<Image>().fillAmount = 0;
+        progressBar.gameObject.SetActive(false);
+        progressBar.transform.GetChild(0).GetComponent<Image>().fillAmount = 0;
 
     }
 
@@ -96,7 +96,7 @@ public class Block : MonoBehaviour
     /// <param name="context"></param>
     public void Tap()
     {
-        if ( PlayManager.instance.activePowerup == PowerupTypes.None && InputManager.targetBlock == this)
+        if (PlayManager.instance.activePowerup == PowerupTypes.None && InputManager.targetBlock == this)
         {
 
             if (BlockState == BlockState.Moving)
@@ -106,9 +106,9 @@ public class Block : MonoBehaviour
                     ReadyBlock();
                     isDown = true;
                     Debug.Log("Tapped");
-   
+
                     GetComponent<Rigidbody2D>().gravityScale = 1;
-  
+
 
                 }
             }
@@ -129,7 +129,7 @@ public class Block : MonoBehaviour
 
 
 
-    
+
     /// <summary>
     /// Called when the player holds the screen. This will start the coroutine to manage the time to hold the Block.
     /// </summary>
@@ -205,15 +205,20 @@ public class Block : MonoBehaviour
     }
 
 
-/// <summary>
-/// Sets the Block to ready. and sets all the colors and variables for the ready state.
-/// </summary>
+    /// <summary>
+    /// Sets the Block to ready. and sets all the colors and variables for the ready state.
+    /// </summary>
     public void ReadyBlock()
     {
-        SetColor(readyColor, 0f);
-        SetColor(readyColor, 0.1f, true);
-        ready = true;
-        BlockState = BlockState.Ready;
+        if (BlockManager.instance.GhostBlock == this)
+        {
+
+            SetColor(readyColor, 0f);
+            SetColor(readyColor, 0.1f, true);
+            ready = true;
+            BlockState = BlockState.Ready;
+            BlockManager.instance.GhostBlock = null;
+        }
 
     }
 
@@ -312,14 +317,21 @@ public class Block : MonoBehaviour
     {
         SetColor(brokenColor, 1f);
         BlockState = BlockState.Broken;
+        if (BlockManager.instance.blockStack.Contains(this))
+        {
+            ScoreManager.instance.AddScore(-1);
+        }
+
+
         BlockManager.instance.RemoveFromStack(this);
         if (!fromWeakened)
         {
             BlockManager.instance.SetSpawnLevel();
             BlockManager.instance.CreateBlock();
-            StrikeManager.instance.AddStrike();
-            SoundManager.instance.PlaySfx(breakSound);
         }
+        StrikeManager.instance.AddStrike();
+        SoundManager.instance.PlaySfx(breakSound);
+
         Destroy(gameObject, 0.25f);
     }
 
@@ -384,10 +396,10 @@ public class Block : MonoBehaviour
         if (blockStrength > 100)
         {
             blockStrength = 100;
-            blockState = BlockState.Placed ;
+            blockState = BlockState.Placed;
         }
 
-        strengthtext.text = ( (float) blockStrength / 100).ToString("P0"); 
+        strengthtext.text = ((float)blockStrength / 100).ToString("P0");
     }
 
     /// <summary>

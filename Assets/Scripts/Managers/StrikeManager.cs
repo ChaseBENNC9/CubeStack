@@ -37,10 +37,10 @@ public class StrikeManager : MonoBehaviour
                     GameManager.UpdateBestScore(ScoreManager.instance.CurrentScore);
                     Debug.Log("Best Score: " + GameManager.bestScore);
                 }
-                
-  
-                GameManager.SaveGame();
-                PlayManager.instance.EndGame();
+
+                Destroy(BlockManager.instance.GhostBlock.gameObject);
+                Invoke("GameOver", 2.5f);
+
             }
         }
     }
@@ -55,6 +55,12 @@ public class StrikeManager : MonoBehaviour
     {
         StrikeCount++;
         GameObject strike = Instantiate(strikePrefab, strikes.transform);
+    }
+
+    private void GameOver()
+    {
+        GameManager.SaveGame();
+        PlayManager.instance.EndGame();
     }
 
 

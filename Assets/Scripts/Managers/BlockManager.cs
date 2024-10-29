@@ -12,6 +12,7 @@ public class BlockManager : MonoBehaviour
     public static BlockManager instance;
     public int stackSize = 0;
      public List<Block> blockStack;
+     public Block GhostBlock;
 
 
     private void Awake()
@@ -24,24 +25,21 @@ public class BlockManager : MonoBehaviour
     }
 
 
-
-
-
-
-
-    
-
 /// <summary>
 /// Creates a new block and sets it as the target block
 /// </summary>
     public void CreateBlock()
     {
         {
-            
+            if (GhostBlock != null)
+            {
+                return;
+            }
             GameObject block = Instantiate(blockPrefab, transform);
             block.transform.position = blockSpawnPoint.position;
             block.transform.parent = gameObject.transform.parent;
             InputManager.targetBlock = block.GetComponent<Block>();
+            GhostBlock = block.GetComponent<Block>();
           
         }
     }

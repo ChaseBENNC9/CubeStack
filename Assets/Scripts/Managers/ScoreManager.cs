@@ -32,21 +32,16 @@ public class ScoreManager : MonoBehaviour
 
     public void AddScore(int score)
     {
-        if (score < 0)
+        if (currentScore + score < 0)
         {
-            if (currentScore + score < 0)
-            {
-                currentScore = 0;
-            }
-            else
-            {
-                currentScore += score;
-            }
+            currentScore = 0;
         }
         else
         {
             currentScore += score;
         }
+
+
         scoreText.text = currentScore.ToString();
         Debug.Log("Current Score: " + currentScore + " Best Score: " + GameManager.bestScore + " Last Score: " + GameManager.lastScore);
         if (currentScore >= GameManager.lastScore && !passedLastScore)
@@ -66,26 +61,26 @@ public class ScoreManager : MonoBehaviour
 
 
         GameObject scoreIndicator = scoreIndicatorPrefab;
-        
+
         if (isPrevious)
         {
 
 
-                scoreIndicator.transform.Find("text").GetComponent<TMPro.TextMeshProUGUI>().text = "Previous: " + GameManager.lastScore.ToString();
-                Instantiate(scoreIndicator,new Vector3(-2.25f, BlockManager.instance.GetHighestBlock() + 0.5f, scoreIndicator.transform.position.z),Quaternion.identity,transform.parent);
-                passedLastScore = true;
-            
+            scoreIndicator.transform.Find("text").GetComponent<TMPro.TextMeshProUGUI>().text = "Previous: " + GameManager.lastScore.ToString();
+            Instantiate(scoreIndicator, new Vector3(-2.25f, BlockManager.instance.GetHighestBlock() + 0.5f, scoreIndicator.transform.position.z), Quaternion.identity, transform.parent);
+            passedLastScore = true;
+
         }
         else if (!isPrevious)
         {
-  
-            
-                scoreIndicator.transform.Find("text").GetComponent<TMPro.TextMeshProUGUI>().text = "Best: " + GameManager.bestScore.ToString();
-                Instantiate(scoreIndicator,new Vector3(-2.25f, BlockManager.instance.GetHighestBlock() + 0.5f, scoreIndicator.transform.position.z),Quaternion.identity,transform.parent);
-                passedBestScore = true;
-            
+
+
+            scoreIndicator.transform.Find("text").GetComponent<TMPro.TextMeshProUGUI>().text = "Best: " + GameManager.bestScore.ToString();
+            Instantiate(scoreIndicator, new Vector3(-2.25f, BlockManager.instance.GetHighestBlock() + 0.5f, scoreIndicator.transform.position.z), Quaternion.identity, transform.parent);
+            passedBestScore = true;
+
         }
-            Debug.Log(scoreIndicator.transform.position + " " + scoreIndicator.transform.localPosition);
+        Debug.Log(scoreIndicator.transform.position + " " + scoreIndicator.transform.localPosition);
     }
 
 
