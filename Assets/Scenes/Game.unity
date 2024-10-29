@@ -387,6 +387,8 @@ MonoBehaviour:
   stackSize: 0
   blockStack: []
   GhostBlock: {fileID: 0}
+  placementThreshold: 3
+  movementSpeed: 2
 --- !u!4 &55278783
 Transform:
   m_ObjectHideFlags: 0

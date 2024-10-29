@@ -64,28 +64,28 @@ public class ScoreManager : MonoBehaviour
         }
         else if (currentScore >= 5 && currentScore < 10)
         {
-            BlockManager.instance.placementThreshold = 2.75f;
-            BlockManager.instance.movementSpeed = 2.25f;
-        }
-        else if (currentScore >= 10 && currentScore < 15)
-        {
             BlockManager.instance.placementThreshold = 2.5f;
             BlockManager.instance.movementSpeed = 2.5f;
         }
-        else if (currentScore >= 15 && currentScore < 20)
+        else if (currentScore >= 10 && currentScore < 15)
         {
             BlockManager.instance.placementThreshold = 2f;
-            BlockManager.instance.movementSpeed = 2.75f;
+            BlockManager.instance.movementSpeed = 3f;
+        }
+        else if (currentScore >= 15 && currentScore < 20)
+        {
+            BlockManager.instance.placementThreshold = 1.5f;
+            BlockManager.instance.movementSpeed = 3.5f;
         }
         else if (currentScore >= 20 && currentScore < 25)
         {
-            BlockManager.instance.placementThreshold = 1.75f;
-            BlockManager.instance.movementSpeed = 3f;
+            BlockManager.instance.placementThreshold = 1.25f;
+            BlockManager.instance.movementSpeed = 4f;
         }
         else if (currentScore > 25)
         {
-            BlockManager.instance.placementThreshold = 1.5f;
-            BlockManager.instance.movementSpeed = 3.25f;
+            BlockManager.instance.placementThreshold = 0.75f;
+            
         }
     }
   

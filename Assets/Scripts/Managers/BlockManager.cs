@@ -43,6 +43,7 @@ public class BlockManager : MonoBehaviour
             InputManager.targetBlock = block.GetComponent<Block>();
             GhostBlock = block.GetComponent<Block>();
             GhostBlock.holdTime = placementThreshold;
+            GhostBlock.moveSpeed = movementSpeed;
           
         }
     }
