@@ -79,21 +79,16 @@ private void Update()
             if (EventSystem.current.currentSelectedGameObject.tag == "UI")
             {
                 onUI = true;
-                Debug.Log("On UI");
-                Debug.Log(EventSystem.current.currentSelectedGameObject.name);
 
             }
             else
             {
                 onUI = false;
-                Debug.Log("Not on UI");
-                Debug.Log(EventSystem.current.currentSelectedGameObject.name);
             }
         }
         else
         {
             onUI = false;
-            Debug.Log("Current Selected Game Object is null");
         }
     }
 

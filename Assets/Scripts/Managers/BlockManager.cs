@@ -35,6 +35,7 @@ public class BlockManager : MonoBehaviour
         {
             if (GhostBlock != null)
             {
+                Debug.Log("Ghost block already exists");
                 return;
             }
             GameObject block = Instantiate(blockPrefab, transform);
@@ -42,6 +43,7 @@ public class BlockManager : MonoBehaviour
             block.transform.parent = gameObject.transform.parent;
             InputManager.targetBlock = block.GetComponent<Block>();
             GhostBlock = block.GetComponent<Block>();
+            Debug.Log("Ghost block created");
             GhostBlock.holdTime = placementThreshold;
             GhostBlock.moveSpeed = movementSpeed;
           
@@ -62,7 +64,6 @@ public class BlockManager : MonoBehaviour
 
 public float GetHighestBlock()
 {
-    Debug.Log("Highest Block: " + blockStack[0].BlockHeight());
     return blockStack[0].BlockHeight();
 }
 /// <summary>

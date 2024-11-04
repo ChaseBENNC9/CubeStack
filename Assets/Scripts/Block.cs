@@ -97,6 +97,7 @@ public class Block : MonoBehaviour
     /// <param name="context"></param>
     public void Tap()
     {
+        Debug.Log("Tapped");
         if (PlayManager.instance.activePowerup == PowerupTypes.None && InputManager.targetBlock == this)
         {
 
@@ -106,7 +107,6 @@ public class Block : MonoBehaviour
                 {
                     ReadyBlock();
                     isDown = true;
-                    Debug.Log("Tapped");
 
                     GetComponent<Rigidbody2D>().gravityScale = 1;
 
@@ -121,7 +121,6 @@ public class Block : MonoBehaviour
         }
         else
         {
-            Debug.Log("TAP " + PlayManager.instance.activePowerup + " " + InputManager.targetBlock);
 
         }
 
@@ -136,6 +135,7 @@ public class Block : MonoBehaviour
     /// </summary>
     public void Hold(bool down)
     {
+        Debug.Log("Holding");   
         if (PlayManager.instance.activePowerup == PowerupTypes.None && InputManager.targetBlock == this)
         {
 
@@ -159,13 +159,13 @@ public class Block : MonoBehaviour
                     PlaceWeakenedBlock();
 
                 }
-
                 isDown = false;
+
             }
         }
         else
         {
-            Debug.LogWarning("HOLD " + PlayManager.instance.activePowerup + " " + InputManager.targetBlock);
+            Debug.Log("SOmeone else is wrong");
         }
 
     }
@@ -218,7 +218,7 @@ public class Block : MonoBehaviour
             SetColor(readyColor, 0.1f, true);
             ready = true;
             BlockState = BlockState.Ready;
-            BlockManager.instance.GhostBlock = null;
+            // BlockManager.instance.GhostBlock = null;
         }
 
     }
@@ -239,6 +239,7 @@ public class Block : MonoBehaviour
         BlockState = state;
         BlockManager.instance.SetSpawnLevel();
         SetColor(placedColor, colorIntensity);
+        BlockManager.instance.GhostBlock = null;
         BlockManager.instance.CreateBlock();
         progressBar.gameObject.SetActive(false);
     }
@@ -305,7 +306,6 @@ public class Block : MonoBehaviour
     private void ActivateBlock()
     {
 
-        Debug.Log("Activated");
         SetColor(activeColor, 1f);
     }
 
@@ -443,7 +443,6 @@ public class Block : MonoBehaviour
         {
             BreakBlock(true);
         }
-        Debug.Log(random + " " + blockStrength);
 
     }
 }

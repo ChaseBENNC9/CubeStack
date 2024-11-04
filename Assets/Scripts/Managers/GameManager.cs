@@ -15,7 +15,6 @@ public static class GameManager
 
     public static void MainMenu()
     {
-        Debug.Log("Game Over");
 
         SceneManager.LoadScene("Game");
     }

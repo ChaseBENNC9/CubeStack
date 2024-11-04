@@ -44,7 +44,6 @@ public class ScoreManager : MonoBehaviour
 
 
         scoreText.text = currentScore.ToString();
-        Debug.Log("Current Score: " + currentScore + " Best Score: " + GameManager.bestScore + " Last Score: " + GameManager.lastScore);
 
         if (currentScore >= GameManager.bestScore)
         {
