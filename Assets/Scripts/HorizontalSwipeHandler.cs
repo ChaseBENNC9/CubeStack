@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class HorizontalSwipeHandler : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragHandler
+public class HorizontalSwipeHandler : MonoBehaviour, IBeginDragHandler, IEndDragHandler
 {
     private Vector2 startDragPosition;
     private float swipeThreshold = 50f; // Minimum distance for a swipe to be recognized
@@ -13,11 +13,7 @@ public class HorizontalSwipeHandler : MonoBehaviour, IBeginDragHandler, IEndDrag
         startDragPosition = eventData.position;
     }
 
-    // Called while dragging (optional, can be used to show a real-time effect)
-    public void OnDrag(PointerEventData eventData)
-    {
-        // Optional: Add visual effects during the drag here, if needed
-    }
+
 
     // Called when the drag ends
     public void OnEndDrag(PointerEventData eventData)

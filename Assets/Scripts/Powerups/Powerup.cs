@@ -8,18 +8,21 @@ using UnityEngine.UI;
 /// </summary>
 public abstract class Powerup : MonoBehaviour
 {
-    public float cooldown;
+    public float cooldown; //cooldown time in seconds
     public Image foreGroundIcon;
     public Image backgroundIcon;
     public Image bannedOverlay;
     public Image counterIcon;
-    public int count;
+    public int count; //number of uses available
     public bool inUse = false;
     public PowerupTypes powerupType;
 
 
 
 
+    /// <summary>
+    /// Updates the button UI
+    /// </summary>
     public virtual void UpdateButton()
     {
                 counterIcon.gameObject.transform.Find("Text").GetComponent<TextMeshProUGUI>().text = count.ToString();
@@ -42,9 +45,18 @@ public abstract class Powerup : MonoBehaviour
             bannedOverlay.gameObject.SetActive(true);
         }
     }
+    /// <summary>
+    /// Activates the powerup functionality varies by powerup
+    /// </summary>
     protected abstract void ActivatePowerup();
+    /// <summary>
+    /// Checks if the powerup can be used varies by powerup
+    /// </summary>
     protected abstract bool PowerupRequirements();
 
+    /// <summary>
+    /// Called when the powerup button is pressed
+    /// </summary>
     public virtual void PowerupPressed()
     {
         if (!inUse && count > 0 )
@@ -54,6 +66,9 @@ public abstract class Powerup : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Begins the cooldown animation
+    /// </summary>
     protected void BeginCooldown()
     {
         foreGroundIcon.fillAmount = 0;
@@ -61,6 +76,8 @@ public abstract class Powerup : MonoBehaviour
         StartCoroutine(CooldownAnimation());
     }
 
+    /// <summary>
+    /// Cooldown animation circle fiils up over time
     private IEnumerator CooldownAnimation()
     {
         float elapsedTime = 0.0f;

@@ -316,6 +316,7 @@ public class Block : MonoBehaviour
     /// </summary>
     public void BreakBlock(bool fromWeakened = false)
     {
+        BlockManager.instance.GhostBlock = null;
         SetColor(brokenColor, 1f);
         BlockState = BlockState.Broken;
         if (BlockManager.instance.blockStack.Contains(this))

@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
+/// <summary>
+/// global game manager class
+/// </summary>
 public static class GameManager
 {
     public static int bestScore = 0;
@@ -13,20 +15,34 @@ public static class GameManager
 
     public static SaveData saveData;
 
+/// <summary>
+/// Loads the main menu scene
+/// </summary>
     public static void MainMenu()
     {
 
         SceneManager.LoadScene("Game");
     }
 
+    /// <summary>
+    /// sets the current global game state
+    /// </summary>
     public static void SetGameState(GameStates state)
     {
         gameState = state;
     }
+    /// <summary>
+    /// gets the current global game state
+    /// </summary>
+    /// <returns></returns>
     public static GameStates GetGameState()
     {
         return gameState;
     }
+    /// <summary>
+    /// Updates the best score if the current score is higher
+    /// </summary>
+    /// <param name="score"></param>
 
     public static void UpdateBestScore(int score)
     {
@@ -36,6 +52,9 @@ public static class GameManager
         }
     }
 
+    /// <summary>
+    /// Saves the game data to player prefs
+    ///    </summary>
     public static void SaveGame()
     {
         SaveData data = new SaveData(bestScore, lastScore, powerupRepair, powerupRewind, powerupPerfect);
@@ -46,6 +65,9 @@ public static class GameManager
         PlayerPrefs.Save();
     }
 
+    /// <summary>
+    /// Loads the game data from player pref and updates the best and last score and powerups
+    ///  </summary>
     public static SaveData LoadGame()
     {
         SaveData data ;
@@ -73,7 +95,7 @@ public static class GameManager
 
 
         }
-        else
+        else //the data does not exist or is corrupted
         {
             data = new SaveData();
             json = JsonUtility.ToJson(data);

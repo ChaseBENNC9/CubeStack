@@ -37,8 +37,8 @@ public class StrikeManager : MonoBehaviour
                     GameManager.UpdateBestScore(ScoreManager.instance.CurrentScore);
                     Debug.Log("Best Score: " + GameManager.bestScore);
                 }
-
-                Destroy(BlockManager.instance.GhostBlock.gameObject);
+                if (BlockManager.instance.GhostBlock != null)
+                    Destroy(BlockManager.instance.GhostBlock.gameObject);
                 Invoke("GameOver", .5f);
 
             }

@@ -2,7 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
-
+/// <summary>
+/// Manages the sound effects and music in the game
+/// </summary>
 public class SoundManager : MonoBehaviour
 {
 
@@ -59,9 +61,5 @@ public class SoundManager : MonoBehaviour
         instance = this;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+
 }

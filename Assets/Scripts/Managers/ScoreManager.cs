@@ -2,7 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+/// <summary>
+/// Manages the score and difficulty of the game\
+/// </summary>
 public class ScoreManager : MonoBehaviour
 {
     public static ScoreManager instance;
@@ -53,7 +55,9 @@ public class ScoreManager : MonoBehaviour
         
 
     }
-
+    /// <summary>
+    /// increases the difficulty of the game based on the current score
+    /// </summary>
     private void IncreaseDifficulty()
     {
         if (currentScore >= 0 && currentScore < 5)

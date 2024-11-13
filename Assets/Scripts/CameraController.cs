@@ -1,5 +1,7 @@
 using UnityEngine;
-
+/// <summary>
+/// Controls the camera's position and movement to follow the tower
+/// </summary>
 public class CameraController : MonoBehaviour
 {
     public Transform topCube; // Reference to the top cube in the stack

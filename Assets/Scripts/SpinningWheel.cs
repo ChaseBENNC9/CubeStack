@@ -1,7 +1,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+/// <summary>
+/// Manages the spinning wheel minigame
+/// </summary>
 public class SpinningWheel : MonoBehaviour
 {
     private const float MIN_SPEED = 450f;

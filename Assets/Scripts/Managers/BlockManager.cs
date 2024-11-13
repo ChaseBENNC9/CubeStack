@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Net.Mail;
 using UnityEngine;
 using UnityEngine.InputSystem;
-
+/// <summary>
+/// Manages the blocks in the game
+/// </summary>
 public class BlockManager : MonoBehaviour
 {
     [SerializeField] private GameObject blockPrefab;

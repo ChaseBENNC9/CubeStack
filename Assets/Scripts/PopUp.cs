@@ -2,7 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-
+/// <summary>
+/// A pop up message that appears on the screen for a short time
+/// </summary>
 [RequireComponent(typeof(TextMeshProUGUI))]
 public class PopUp : MonoBehaviour
 {

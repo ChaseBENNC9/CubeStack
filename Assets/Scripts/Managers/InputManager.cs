@@ -2,7 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Net.Mail;
 using UnityEngine;
-
+/// <summary>
+/// Manages player input
+/// </summary>
 public class InputManager : MonoBehaviour
 {
 

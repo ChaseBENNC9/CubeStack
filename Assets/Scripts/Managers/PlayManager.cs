@@ -4,7 +4,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using TMPro;
-
+/// <summary>
+/// mNages the game state and UI
+/// </summary>
 public class PlayManager : MonoBehaviour
 {
     public GameObject placeholderBlock;
@@ -20,7 +22,9 @@ public class PlayManager : MonoBehaviour
     {
         instance = this;
     }
-
+    /// <summary>
+    ///  transitions to the game scene
+    /// </summary>
     public void StartGame()
     {
         placeholderBlock.SetActive(false);
@@ -32,7 +36,7 @@ public class PlayManager : MonoBehaviour
     }
     private void Start()
     {
-        GameManager.saveData = GameManager.LoadGame();
+        GameManager.saveData = GameManager.LoadGame(); // load the game data----+
         UpdateUI();
         GameManager.SetGameState(GameStates.Pre_Game);
         placeholderBlock.SetActive(true);

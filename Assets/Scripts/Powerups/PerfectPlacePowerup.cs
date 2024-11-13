@@ -34,7 +34,6 @@ public class PerfectPlacePowerup : Powerup
         b.PlacePerfectBlock(false);
         
         PlayManager.instance.activePowerup = powerupType;
-        //Functionality to repair the block
 
         
 

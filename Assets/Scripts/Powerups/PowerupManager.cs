@@ -2,14 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-
+/// <summary>
+/// Manages the state of each of the  powerups in the game
+/// </summary>
 public class PowerupManager : MonoBehaviour
 {
-    // Start is called before the first frame update
+    /// <summary>
+    /// List of powerups in the game that can be activated
+    /// </summary>
    [SerializeField] private List<Powerup> powerups;
-    void Start()
-    {
-    }
 
     // Update is called once per frame
     void Update()
